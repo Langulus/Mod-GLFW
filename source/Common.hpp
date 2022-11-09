@@ -6,14 +6,28 @@
 /// See LICENSE file, or https://www.gnu.org/licenses                         
 ///                                                                           
 #pragma once
-#define LANGULUS_EXPOSE_PRIVATE_HEADERS
+
+/// Include Langulus framework                                                
 #include <Langulus.hpp>
 
 using namespace Langulus;
+using namespace Langulus::Flow;
 using namespace Langulus::Anyness;
+using namespace Langulus::Entity;
+using namespace Langulus::Math;
 
-//#define LANGULUS_STD_BENCHMARK
+/// Include GLFW                                                              
+#if LANGULUS_OS(WINDOWS)
+   #define GLFW_EXPOSE_NATIVE_WIN32
+#elif LANGULUS_OS(LINUX)
+   #define GLFW_EXPOSE_NATIVE_X11
+#else
+   #error Expose GLFW native access here, before the include to glfw
+#endif
 
-//#ifdef LANGULUS_STD_BENCHMARK
-#define CATCH_CONFIG_ENABLE_BENCHMARKING
-//#endif
+//#define GLFW_INCLUDE_VULKAN
+
+#include <GLFW/glfw3.h>
+
+class Platform;
+class Window;
