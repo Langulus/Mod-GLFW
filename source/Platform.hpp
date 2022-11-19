@@ -1,10 +1,17 @@
+///                                                                           
+/// Langulus::Module::GLFW                                                    
+/// Copyright(C) 2015 Dimo Markov <langulusteam@gmail.com>                    
+///                                                                           
+/// Distributed under GNU General Public License v3+                          
+/// See LICENSE file, or https://www.gnu.org/licenses                         
+///                                                                           
 #pragma once
 #include "Window.hpp"
 
 ///                                                                           
 ///   Native window/dialog management module                                  
 ///                                                                           
-///   Manages and produces windows, dialogs, file selection browsers,         
+/// Manages and produces native windows, dialogs, file selection browsers,    
 /// color pickers, etc. Uses GLFW library as a backend.                       
 ///                                                                           
 class Platform : public Module {
@@ -13,8 +20,11 @@ class Platform : public Module {
    LANGULUS_VERBS(Verbs::Create);
 
 private:
-   // List of created windows												         
+   // List of created windows                                           
    TFactory<Window> mWindows;
+
+   // Number of opened windows                                          
+   Count mOpenedWindows {};
 
 public:
    Platform(Runtime*, const Any&);
@@ -25,7 +35,8 @@ public:
    void Create(Verb&);
 };
 
-LANGULUS_DEFINE_MODULE(Platform, 9, "Platform"
-   , "Native window/dialog module, implemented via GLFW", ""
-   , Platform, Window
+LANGULUS_DEFINE_MODULE(
+   Platform, 9, "Platform", 
+   "Native window/dialog module, using GLFW as backend", "",
+   Platform, Window
 )

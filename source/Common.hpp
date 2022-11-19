@@ -6,9 +6,18 @@
 /// See LICENSE file, or https://www.gnu.org/licenses                         
 ///                                                                           
 #pragma once
-
-/// Include Langulus framework                                                
 #include <Langulus.hpp>
+
+LANGULUS_DEFINE_TRAIT(Cursor,
+   "Enables or disables cursor for window");
+LANGULUS_DEFINE_TRAIT(Monitor,
+   "Monitor to which window is bound, making it fullscreen");
+LANGULUS_DEFINE_TRAIT(MousePosition,
+   "Mouse position, relative to a window");
+LANGULUS_DEFINE_TRAIT(MouseScroll,
+   "Mouse scroll for window");
+LANGULUS_DEFINE_TRAIT(NativeWindowHandle,
+   "Native window handle");
 
 using namespace Langulus;
 using namespace Langulus::Flow;
@@ -24,8 +33,6 @@ using namespace Langulus::Math;
 #else
    #error Expose GLFW native access here, before the include to glfw
 #endif
-
-//#define GLFW_INCLUDE_VULKAN
 
 #include <GLFW/glfw3.h>
 

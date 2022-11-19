@@ -27,11 +27,20 @@ download_project(
 add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
 include_directories(${glfw_SOURCE_DIR}/include)
 
+if (MSVC)
+    add_compile_options(/bigobj /W4)
+    get_target_property(CURRENT_GLFW_OPTIONS glfw COMPILE_OPTIONS)
+    # Remove annoying D9025 warning                                         
+    list(REMOVE_ITEM CURRENT_GLFW_OPTIONS /W4)
+    set_target_properties(glfw PROPERTIES COMPILE_OPTIONS "${CURRENT_GLFW_OPTIONS}")
+endif()
+
+# Build the module                                                          
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/source SOURCE_FILES)
 add_library(Mod.GLFW SHARED ${SOURCE_FILES})
 
 target_link_libraries(Mod.GLFW
-    PRIVATE     Langulus.Framework
+    PUBLIC      Langulus.Framework
                 glfw
 )
 
