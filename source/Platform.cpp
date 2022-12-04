@@ -7,6 +7,12 @@
 ///                                                                           
 #include "Platform.hpp"
 
+LANGULUS_DEFINE_MODULE(
+   Platform, 9, "GLFW",
+   "Native window/dialog module, using GLFW as backend", "",
+   Platform, Window, Cursor, Monitor
+)
+
 /// Error message relay                                                       
 ///   @param error - error id                                                 
 ///   @param description - text to display                                    

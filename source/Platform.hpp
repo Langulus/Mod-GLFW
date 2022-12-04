@@ -35,8 +35,3 @@ public:
    void Create(Verb&);
 };
 
-LANGULUS_DEFINE_MODULE(
-   Platform, 9, "Platform", 
-   "Native window/dialog module, using GLFW as backend", "",
-   Platform, Window
-)

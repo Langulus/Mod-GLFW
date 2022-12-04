@@ -15,9 +15,24 @@ CATCH_TRANSLATE_EXCEPTION(::Langulus::Exception const& ex) {
 }
 
 SCENARIO("Window creation", "[window]") {
-   GIVEN("A window creation verb") {
-      WHEN("Window is created") {
-         THEN("Requirements should be met") {
+   GIVEN("A root entity") {
+      // Create root entity                                             
+      Thing root;
+      root.AddTrait(Traits::Name {"ROOT"_text});
+
+      // Create runtime at the root                                     
+      auto runtime = root.CreateRuntime();
+
+      // Load GLFW module                                               
+      auto module = root.LoadMod("GLFW");
+
+      WHEN("The window is created") {
+         // Update once                                                 
+         root.Update(Time::zero());
+
+         THEN("Various traits change") {
+            root.DumpHierarchy();
+
             REQUIRE(true);
          }
       }

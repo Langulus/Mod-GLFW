@@ -11,6 +11,7 @@
 
 using namespace Langulus;
 using namespace Langulus::Anyness;
+using namespace Langulus::Entity;
 
 //#define LANGULUS_STD_BENCHMARK
 
