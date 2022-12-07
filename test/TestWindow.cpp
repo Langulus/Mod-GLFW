@@ -27,6 +27,8 @@ SCENARIO("Window creation", "[window]") {
       auto module = root.LoadMod("GLFW");
 
       WHEN("The window is created") {
+         root.CreateUnitToken("Window");
+
          // Update once                                                 
          root.Update(Time::zero());
 
