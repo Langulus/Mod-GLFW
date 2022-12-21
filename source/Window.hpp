@@ -18,6 +18,7 @@
 class Window : public Unit {
    LANGULUS(ABSTRACT) false;
    LANGULUS(PRODUCER) Platform;
+   LANGULUS_VERBS(Verbs::Associate);
 
 private:
    // The window handle (GLFW specific)                                 
@@ -41,6 +42,8 @@ private:
    Grad2v2 mMouseScroll;
    // Text input accumulator                                            
    Text mTextInput;
+   // Clipboard                                                         
+   Text mClipboard;
 
    LANGULUS_PROPERTIES_START(Window)
       LANGULUS_PROPERTY_TRAIT(mSize, Size),
@@ -49,7 +52,8 @@ private:
       LANGULUS_PROPERTY_TRAIT(mTitle, Name),
       LANGULUS_PROPERTY_TRAIT(mCursor, Cursor),
       LANGULUS_PROPERTY_TRAIT(mMonitor, Monitor),
-      LANGULUS_PROPERTY_TRAIT(mNativeWindowHandle, NativeWindowHandle)
+      LANGULUS_PROPERTY_TRAIT(mNativeWindowHandle, NativeWindowHandle),
+      LANGULUS_PROPERTY_TRAIT(mClipboard, Clipboard)
    LANGULUS_PROPERTIES_END();
 
 public:
@@ -58,6 +62,8 @@ public:
    ~Window();
 
    Window& operator = (Window&&) noexcept;
+
+   void Associate(Verb&);
 
    void Refresh() final;
 

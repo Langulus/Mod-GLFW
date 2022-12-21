@@ -129,10 +129,29 @@ void Window::Refresh() {
       glfwSetWindowTitle(mGLFWWindow.Get(), mTitle.Terminate().GetRaw());
 }
 
+/// Associate some specific traits of a window                                
+/// Many of the window traits require system calls to update, so this takes   
+/// care of that                                                              
+///   @param verb - association verb                                          
+void Window::Associate(Verb& verb) {
+   verb.ForEachDeep([&](const Trait& trait) {
+      if (trait.TraitIs<Traits::Clipboard>()) {
+         // Update system clipboard                                     
+         mClipboard = trait.AsCast<Text>().Terminate();
+         glfwSetClipboardString(mGLFWWindow.Get(), mClipboard.GetRaw());
+      }
+   });
+}
+
 /// Update the window                                                         
 void Window::Update() {
    if (!mGLFWWindow)
       return;
+
+   // Expose the current clipboard - it might be used by other modules, 
+   // like UI for example                                               
+   mClipboard = Text {glfwGetClipboardString(mGLFWWindow.Get())};
+
 
    // Update gradients, even if window is not interactable              
    mMousePosition.Update();
