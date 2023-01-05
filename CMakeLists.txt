@@ -1,12 +1,5 @@
 project(Langulus.Mod.GLFW)
 
-# We're importing symbols from Langulus.Framework                           
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS OFF)
-remove_definitions(-DLANGULUS_EXPORT_ALL)
-if(NOT WIN32)
-    add_compile_options(-fvisibility=hidden)
-endif()
-
 # Configure GLFW library, it will be statically built inside this module    
 set(BUILD_SHARED_LIBS OFF CACHE BOOL
     "Build and link GLFW statically" FORCE)
@@ -16,8 +9,8 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL
     "Save some calories on building GLFW tests" FORCE)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL
     "Save some calories on building GLFW documentation" FORCE)
+set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
-message(STATUS "Configuring external project: GLFW...")
 download_project(
     PROJ                glfw
     GIT_REPOSITORY      https://github.com/glfw/glfw.git
@@ -36,11 +29,11 @@ if (MSVC)
 endif()
 
 # Build the module                                                          
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/source SOURCE_FILES)
-add_library(Mod.GLFW SHARED ${SOURCE_FILES})
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/source LANGULUS_MOD_GLFW_SOURCES)
+add_library(Mod.GLFW SHARED ${LANGULUS_MOD_GLFW_SOURCES})
 
 target_link_libraries(Mod.GLFW
-    PUBLIC      Langulus.Framework
+    PRIVATE     Langulus.Framework
                 glfw
 )
 
