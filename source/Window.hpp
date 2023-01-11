@@ -26,7 +26,7 @@ private:
    // Window title                                                      
    Pinnable<Text> mTitle;
    // Window size, in pixels                                            
-   Pinnable<Size2> mSize;
+   Pinnable<Scale2> mSize;
    // Whether or not cursor is enabled                                  
    Own<Cursor*> mCursor;
    // Whether or not fullscreen is enabled on a specific monitor        
