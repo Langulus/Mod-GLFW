@@ -30,7 +30,7 @@ public:
    Platform(Runtime*, const Any&);
    ~Platform();
 
-   virtual void Update(Time) final;
+   void Update(Time) final;
 
    void Create(Verb&);
 };
