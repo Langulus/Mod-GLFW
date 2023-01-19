@@ -17,7 +17,7 @@ LANGULUS_DEFINE_MODULE(
 ///   @param error - error id                                                 
 ///   @param description - text to display                                    
 void ErrorRelay(int error, const char* description) {
-   Logger::Error() << "GLFW Error code " << error << ": " << description;
+   Logger::Error("GLFW Error code ", error, ": ", description);
 }
 
 /// Module construction                                                       

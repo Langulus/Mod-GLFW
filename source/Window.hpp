@@ -19,7 +19,6 @@ class Window : public Unit {
    LANGULUS(ABSTRACT) false;
    LANGULUS(PRODUCER) Platform;
    LANGULUS_VERBS(Verbs::Associate);
-
 private:
    // The window handle (GLFW specific)                                 
    Own<GLFWwindow*> mGLFWWindow;

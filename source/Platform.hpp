@@ -18,7 +18,6 @@ class Platform : public Module {
    LANGULUS(ABSTRACT) false;
    LANGULUS_BASES(Module);
    LANGULUS_VERBS(Verbs::Create);
-
 private:
    // List of created windows                                           
    TFactory<Window> mWindows;

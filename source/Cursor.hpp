@@ -15,7 +15,6 @@
 class Cursor : public Unit {
    LANGULUS(ABSTRACT) false;
    LANGULUS(PRODUCER) Platform;
-
 public:
    Cursor(const Any&);
    Cursor(Cursor&&) noexcept;

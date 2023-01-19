@@ -15,7 +15,6 @@
 class Monitor : public Unit {
    LANGULUS(ABSTRACT) false;
    LANGULUS(PRODUCER) Platform;
-
 public:
    Monitor(const Any&);
    Monitor(Monitor&&) noexcept;

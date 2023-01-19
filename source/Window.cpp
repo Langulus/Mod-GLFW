@@ -152,7 +152,6 @@ void Window::Update() {
    // like UI for example                                               
    mClipboard = Text {glfwGetClipboardString(mGLFWWindow.Get())};
 
-
    // Update gradients, even if window is not interactable              
    mMousePosition.Update();
    mMouseScroll.Update();
@@ -270,7 +269,8 @@ void Window::AccumulateScroll(const Vec2& offset) noexcept {
 ///                                                                           
 
 /// Get the Langulus window associated with a GLFW window                     
-inline auto GetUnit(GLFWwindow* window) {
+LANGULUS(ALWAYSINLINE)
+auto GetUnit(GLFWwindow* window) {
    return static_cast<Window*>(glfwGetWindowUserPointer(window));
 }
 
