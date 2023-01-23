@@ -15,10 +15,10 @@
 /// Encapsulates a native window, relays create, move, select verbs to the    
 /// operating system, dispatches interact verbs to hierarchy upon user input  
 ///                                                                           
-class Window : public Unit {
+struct Window final : Unit, ProducedFrom<Platform> {
    LANGULUS(ABSTRACT) false;
-   LANGULUS(PRODUCER) Platform;
    LANGULUS_VERBS(Verbs::Associate);
+
 private:
    // The window handle (GLFW specific)                                 
    Own<GLFWwindow*> mGLFWWindow;
@@ -56,7 +56,7 @@ private:
    LANGULUS_PROPERTIES_END();
 
 public:
-   Window(const Any&);
+   Window(Platform*, const Any&);
    Window(Window&&) noexcept;
    ~Window();
 
@@ -64,7 +64,7 @@ public:
 
    void Associate(Verb&);
 
-   void Refresh() final;
+   void Refresh();
 
    NOD() bool IsClosed() const;
    NOD() bool IsInFocus() const;

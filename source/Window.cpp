@@ -41,8 +41,9 @@ void OnFileDrop(GLFWwindow*, int count, const char** paths);
 
 /// Window construction                                                       
 ///   @param descriptor - window descriptor                                   
-Window::Window(const Any& descriptor)
-   : Unit {MetaOf<Window>(), descriptor} {
+Window::Window(Platform* producer, const Any& descriptor)
+   : Unit {MetaOf<Window>(), descriptor}
+   , ProducedFrom {producer, descriptor} {
    // Extract properties from descriptor and hierarchy                  
    mOwners.SeekTrait<Traits::Size>(descriptor, mSize);
    mOwners.SeekTrait<Traits::Name>(descriptor, mTitle);
@@ -62,21 +63,21 @@ Window::Window(const Any& descriptor)
       LANGULUS_THROW(Construct, "Failed to initialize window");
 
    // Set the callbacks and user pointers for the canvas pipe           
-   glfwSetWindowCloseCallback(mGLFWWindow.Get(), OnClosed);
-   glfwSetKeyCallback(mGLFWWindow.Get(), OnKeyboardKey);
-   glfwSetWindowPosCallback(mGLFWWindow.Get(), OnMove);
-   glfwSetWindowSizeCallback(mGLFWWindow.Get(), OnResize);
-   glfwSetWindowFocusCallback(mGLFWWindow.Get(), OnFocus);
-   glfwSetWindowIconifyCallback(mGLFWWindow.Get(), OnMinimize);
-   glfwSetFramebufferSizeCallback(mGLFWWindow.Get(), OnResolutionChange);
-   glfwSetCursorEnterCallback(mGLFWWindow.Get(), OnHover);
-   glfwSetMouseButtonCallback(mGLFWWindow.Get(), OnMouseKey);
-   glfwSetScrollCallback(mGLFWWindow.Get(), OnMouseScroll);
-   glfwSetCharCallback(mGLFWWindow.Get(), OnTextInput);
-   glfwSetDropCallback(mGLFWWindow.Get(), OnFileDrop);
+   glfwSetWindowCloseCallback(mGLFWWindow, OnClosed);
+   glfwSetKeyCallback(mGLFWWindow, OnKeyboardKey);
+   glfwSetWindowPosCallback(mGLFWWindow, OnMove);
+   glfwSetWindowSizeCallback(mGLFWWindow, OnResize);
+   glfwSetWindowFocusCallback(mGLFWWindow, OnFocus);
+   glfwSetWindowIconifyCallback(mGLFWWindow, OnMinimize);
+   glfwSetFramebufferSizeCallback(mGLFWWindow, OnResolutionChange);
+   glfwSetCursorEnterCallback(mGLFWWindow, OnHover);
+   glfwSetMouseButtonCallback(mGLFWWindow, OnMouseKey);
+   glfwSetScrollCallback(mGLFWWindow, OnMouseScroll);
+   glfwSetCharCallback(mGLFWWindow, OnTextInput);
+   glfwSetDropCallback(mGLFWWindow, OnFileDrop);
 
    // Set the user pointer inside GLFWWindow to carry this interface    
-   glfwSetWindowUserPointer(mGLFWWindow.Get(), this);
+   glfwSetWindowUserPointer(mGLFWWindow, this);
 
    // Raw mouse motion is closer to the actual motion of the mouse      
    // across a surface. It is not affected by the scaling and           
@@ -85,20 +86,21 @@ Window::Window(const Any& descriptor)
    // better for controlling for example a 3D camera. Because of this,  
    // raw mouse motion is only provided when the cursor is disabled.    
    if (glfwRawMouseMotionSupported())
-      glfwSetInputMode(mGLFWWindow.Get(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+      glfwSetInputMode(mGLFWWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-   mNativeWindowHandle = GetNativeWindowPointer(mGLFWWindow.Get());
+   mNativeWindowHandle = GetNativeWindowPointer(mGLFWWindow);
 }
 
 /// Move-construct window                                                     
 ///   @param other - the window to move                                       
 Window::Window(Window&& other) noexcept
    : Unit {Forward<Unit>(other)}
+   , ProducedFrom {Forward<ProducedFrom>(other)}
    , mGLFWWindow {Move(other.mGLFWWindow)}
    , mScrollChange {other.mScrollChange} {
    // Make sure the internal user pointer points to new place, too      
    if (mGLFWWindow)
-      glfwSetWindowUserPointer(mGLFWWindow.Get(), this);
+      glfwSetWindowUserPointer(mGLFWWindow, this);
 }
 
 /// Move-copy window                                                          
@@ -108,14 +110,14 @@ Window& Window::operator = (Window&& other) noexcept {
    mGLFWWindow = Move(other.mGLFWWindow);
    mScrollChange = other.mScrollChange;
    if (mGLFWWindow)
-      glfwSetWindowUserPointer(mGLFWWindow.Get(), this);
+      glfwSetWindowUserPointer(mGLFWWindow, this);
    return *this;
 }
 
 /// Window destruction                                                        
 Window::~Window() {
    if (mGLFWWindow) {
-      glfwDestroyWindow(mGLFWWindow.Get());
+      glfwDestroyWindow(mGLFWWindow);
       mGLFWWindow = nullptr;
       mNativeWindowHandle = nullptr;
    }
@@ -126,7 +128,7 @@ void Window::Refresh() {
    // Refresh unpinned properties from hierarchy                        
    mOwners.SeekTrait<Traits::Size>(mSize);
    if (mOwners.SeekTrait<Traits::Name>(mTitle))
-      glfwSetWindowTitle(mGLFWWindow.Get(), mTitle.Terminate().GetRaw());
+      glfwSetWindowTitle(mGLFWWindow, mTitle.Terminate().GetRaw());
 }
 
 /// Associate some specific traits of a window                                
@@ -138,7 +140,7 @@ void Window::Associate(Verb& verb) {
       if (trait.TraitIs<Traits::Clipboard>()) {
          // Update system clipboard                                     
          mClipboard = trait.AsCast<Text>().Terminate();
-         glfwSetClipboardString(mGLFWWindow.Get(), mClipboard.GetRaw());
+         glfwSetClipboardString(mGLFWWindow, mClipboard.GetRaw());
       }
    });
 }
@@ -150,7 +152,7 @@ void Window::Update() {
 
    // Expose the current clipboard - it might be used by other modules, 
    // like UI for example                                               
-   mClipboard = Text {glfwGetClipboardString(mGLFWWindow.Get())};
+   mClipboard = Text {glfwGetClipboardString(mGLFWWindow)};
 
    // Update gradients, even if window is not interactable              
    mMousePosition.Update();
@@ -159,7 +161,7 @@ void Window::Update() {
    if (IsInteractable() && IsMouseOver()) {
       // Handle mouse movement                                          
       double mouseX, mouseY;
-      glfwGetCursorPos(mGLFWWindow.Get(), &mouseX, &mouseY);
+      glfwGetCursorPos(mGLFWWindow, &mouseX, &mouseY);
       mMousePosition.Current() = Vec2 {mouseX, mouseY};
 
       // Handle mouse scroll                                            
@@ -224,22 +226,22 @@ void Window::SetSize(int x, int y) {
 
 /// Check if window is closed                                                 
 bool Window::IsClosed() const {
-   return glfwGetWindowAttrib(mGLFWWindow.Get(), GLFW_VISIBLE) == GLFW_FALSE;
+   return glfwGetWindowAttrib(mGLFWWindow, GLFW_VISIBLE) == GLFW_FALSE;
 }
 
 /// Check if window is in focus                                               
 bool Window::IsInFocus() const {
-   return glfwGetWindowAttrib(mGLFWWindow.Get(), GLFW_FOCUSED) == GLFW_TRUE;
+   return glfwGetWindowAttrib(mGLFWWindow, GLFW_FOCUSED) == GLFW_TRUE;
 }
 
 /// Check if window is minimized                                              
 bool Window::IsMinimized() const {
-   return glfwGetWindowAttrib(mGLFWWindow.Get(), GLFW_ICONIFIED) == GLFW_TRUE;
+   return glfwGetWindowAttrib(mGLFWWindow, GLFW_ICONIFIED) == GLFW_TRUE;
 }
 
 /// Check if window is in focus                                               
 bool Window::IsMouseOver() const {
-   return glfwGetWindowAttrib(mGLFWWindow.Get(), GLFW_HOVERED) == GLFW_TRUE;
+   return glfwGetWindowAttrib(mGLFWWindow, GLFW_HOVERED) == GLFW_TRUE;
 }
 
 /// Check if window interacts on inputs                                       
@@ -249,7 +251,7 @@ bool Window::IsInteractable() const {
 
 /// Get the native window handle                                              
 void* Window::GetNativeWindowHandle() const noexcept {
-   return mNativeWindowHandle.Get();
+   return mNativeWindowHandle;
 }
 
 /// Accumulate text input                                                     

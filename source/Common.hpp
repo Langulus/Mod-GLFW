@@ -36,5 +36,5 @@ using namespace Langulus::Math;
 
 #include <GLFW/glfw3.h>
 
-class Platform;
-class Window;
+struct Platform;
+struct Window;
