@@ -21,10 +21,10 @@ SCENARIO("Window creation", "[window]") {
       root.AddTrait(Traits::Name {"ROOT"_text});
 
       // Create runtime at the root                                     
-      auto runtime = root.CreateRuntime();
+      root.CreateRuntime();
 
       // Load GLFW module                                               
-      auto module = root.LoadMod("GLFW");
+      root.LoadMod("GLFW");
 
       WHEN("The window is created") {
          root.CreateUnitToken("Window");
