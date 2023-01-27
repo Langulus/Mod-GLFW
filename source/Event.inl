@@ -70,7 +70,7 @@ namespace Langulus
       return {
          MetaOf<T>(), state, 
          SteadyClock::now(), 
-         Any::Wrap(Forward<PAYLOAD>(payload)...)
+         Any {Forward<PAYLOAD>(payload)...}
       };
    }
 

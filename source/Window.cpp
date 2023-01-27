@@ -45,8 +45,8 @@ Window::Window(Platform* producer, const Any& descriptor)
    : Unit {MetaOf<Window>(), descriptor}
    , ProducedFrom {producer, descriptor} {
    // Extract properties from descriptor and hierarchy                  
-   mOwners.SeekTrait<Traits::Size>(descriptor, mSize);
-   mOwners.SeekTrait<Traits::Name>(descriptor, mTitle);
+   SeekTrait<Traits::Size>(descriptor, mSize);
+   SeekTrait<Traits::Name>(descriptor, mTitle);
 
    // Make it visible                                                   
    glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
@@ -126,8 +126,8 @@ Window::~Window() {
 /// Refresh the window component on environment change                        
 void Window::Refresh() {
    // Refresh unpinned properties from hierarchy                        
-   mOwners.SeekTrait<Traits::Size>(mSize);
-   if (mOwners.SeekTrait<Traits::Name>(mTitle))
+   SeekTrait<Traits::Size>(mSize);
+   if (SeekTrait<Traits::Name>(mTitle))
       glfwSetWindowTitle(mGLFWWindow, mTitle.Terminate().GetRaw());
 }
 
