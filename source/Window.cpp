@@ -45,8 +45,8 @@ Window::Window(Platform* producer, const Any& descriptor)
    : Unit {MetaOf<Window>(), descriptor}
    , ProducedFrom {producer, descriptor} {
    // Extract properties from descriptor and hierarchy                  
-   SeekTrait<Traits::Size>(descriptor, mSize);
-   SeekTrait<Traits::Name>(descriptor, mTitle);
+   SeekTraitAux<Traits::Size>(descriptor, mSize);
+   SeekTraitAux<Traits::Name>(descriptor, mTitle);
 
    // Make it visible                                                   
    glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
