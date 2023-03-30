@@ -8,17 +8,6 @@
 #pragma once
 #include <Langulus.hpp>
 
-LANGULUS_DEFINE_TRAIT(Cursor,
-   "Enables or disables cursor for window");
-LANGULUS_DEFINE_TRAIT(Monitor,
-   "Monitor to which window is bound, making it fullscreen");
-LANGULUS_DEFINE_TRAIT(MousePosition,
-   "Mouse position, relative to a window");
-LANGULUS_DEFINE_TRAIT(MouseScroll,
-   "Mouse scroll for window");
-LANGULUS_DEFINE_TRAIT(NativeWindowHandle,
-   "Native window handle");
-
 using namespace Langulus;
 using namespace Langulus::Flow;
 using namespace Langulus::Anyness;
