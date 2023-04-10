@@ -271,7 +271,7 @@ void Window::AccumulateScroll(const Vec2& offset) noexcept {
 ///                                                                           
 
 /// Get the Langulus window associated with a GLFW window                     
-LANGULUS(ALWAYSINLINE)
+LANGULUS(INLINED)
 auto GetUnit(GLFWwindow* window) {
    return static_cast<Window*>(glfwGetWindowUserPointer(window));
 }
