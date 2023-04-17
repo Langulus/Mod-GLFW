@@ -55,7 +55,7 @@ Window::Window(Platform* producer, const Any& descriptor)
    // Create the canvas                                                 
    mGLFWWindow = glfwCreateWindow(
       int(mSize[0]), int(mSize[1]),
-      const_cast<char*>(mTitle.Terminate().GetRaw()),
+      const_cast<char*>(mTitle->Terminate().GetRaw()),
       nullptr, nullptr
    );
 
@@ -128,7 +128,7 @@ void Window::Refresh() {
    // Refresh unpinned properties from hierarchy                        
    SeekTrait<Traits::Size>(mSize);
    if (SeekTrait<Traits::Name>(mTitle))
-      glfwSetWindowTitle(mGLFWWindow, mTitle.Terminate().GetRaw());
+      glfwSetWindowTitle(mGLFWWindow, mTitle->Terminate().GetRaw());
 }
 
 /// Associate some specific traits of a window                                
