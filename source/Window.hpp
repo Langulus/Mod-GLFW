@@ -10,13 +10,15 @@
 
 
 ///                                                                           
-///   Native window                                                           
+///   GLFW window                                                             
 ///                                                                           
-/// Encapsulates a native window, relays create, move, select verbs to the    
+/// Encapsulates an OS window, relays create, move, select verbs to the       
 /// operating system, dispatches interact verbs to hierarchy upon user input  
 ///                                                                           
-struct Window final : Unit, ProducedFrom<Platform> {
+struct Window final : A::Window, ProducedFrom<::Platform> {
    LANGULUS(ABSTRACT) false;
+   LANGULUS(PRODUCER) ::Platform;
+   LANGULUS_BASES(A::Window);
    LANGULUS_VERBS(Verbs::Associate);
 
 private:
@@ -56,22 +58,23 @@ private:
    LANGULUS_PROPERTIES_END();
 
 public:
-   Window(Platform*, const Any&);
+   Window(::Platform*, const Any&);
    Window(Window&&) noexcept;
    ~Window();
 
    Window& operator = (Window&&) noexcept;
 
    void Associate(Verb&);
-
    void Refresh();
 
    NOD() bool IsClosed() const;
    NOD() bool IsInFocus() const;
-   NOD() bool IsMinimized() const;
    NOD() bool IsMouseOver() const;
    NOD() bool IsInteractable() const;
-   NOD() void* GetNativeWindowHandle() const noexcept;
+
+   NOD() void* GetNativeHandle() const noexcept;
+   NOD() Math::Vec2 GetSize() const noexcept;
+   NOD() bool IsMinimized() const noexcept;
 
    void Update();
    void SetSize(int, int);

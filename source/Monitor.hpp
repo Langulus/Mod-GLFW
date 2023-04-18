@@ -10,17 +10,15 @@
 
 
 ///                                                                           
-///   Native monitor                                                          
+///   GLFW monitor                                                            
 ///                                                                           
-class Monitor : public Unit {
+struct Monitor final : A::Platform, ProducedFrom<::Platform> {
    LANGULUS(ABSTRACT) false;
-   LANGULUS(PRODUCER) Platform;
-public:
-   Monitor(const Any&);
-   Monitor(Monitor&&) noexcept;
-   ~Monitor();
+   LANGULUS(PRODUCER) ::Platform;
+   LANGULUS_BASES(A::Platform);
 
-   Monitor& operator = (Monitor&&) noexcept;
+public:
+   Monitor(::Platform*, const Any&);
 
    void Refresh() final {}
 };

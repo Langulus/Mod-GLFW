@@ -15,9 +15,9 @@
 /// Manages and produces native windows, dialogs, file selection browsers,    
 /// color pickers, etc. Uses GLFW library as a backend.                       
 ///                                                                           
-struct Platform final : Module {
+struct Platform final : A::PlatformModule {
    LANGULUS(ABSTRACT) false;
-   LANGULUS_BASES(Module);
+   LANGULUS_BASES(A::PlatformModule);
    LANGULUS_VERBS(Verbs::Create);
 
 private:

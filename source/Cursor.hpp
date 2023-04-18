@@ -10,17 +10,15 @@
 
 
 ///                                                                           
-///   Native cursor                                                           
+///   GLFW cursor                                                             
 ///                                                                           
-class Cursor : public Unit {
+struct Cursor final : A::Platform, ProducedFrom<::Platform> {
    LANGULUS(ABSTRACT) false;
-   LANGULUS(PRODUCER) Platform;
-public:
-   Cursor(const Any&);
-   Cursor(Cursor&&) noexcept;
-   ~Cursor();
+   LANGULUS(PRODUCER) ::Platform;
+   LANGULUS_BASES(A::Platform);
 
-   Cursor& operator = (Cursor&&) noexcept;
+public:
+   Cursor(::Platform*, const Any&);
 
    void Refresh() final {}
 };

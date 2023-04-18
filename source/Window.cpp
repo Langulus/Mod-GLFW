@@ -40,9 +40,10 @@ void OnFileDrop(GLFWwindow*, int count, const char** paths);
 
 
 /// Window construction                                                       
+///   @param producer - window owner                                          
 ///   @param descriptor - window descriptor                                   
-Window::Window(Platform* producer, const Any& descriptor)
-   : Unit {MetaOf<Window>(), descriptor}
+Window::Window(::Platform* producer, const Any& descriptor)
+   : A::Window {MetaOf<Window>(), descriptor}
    , ProducedFrom {producer, descriptor} {
    // Extract properties from descriptor and hierarchy                  
    SeekTraitAux<Traits::Size>(descriptor, mSize);
@@ -94,7 +95,7 @@ Window::Window(Platform* producer, const Any& descriptor)
 /// Move-construct window                                                     
 ///   @param other - the window to move                                       
 Window::Window(Window&& other) noexcept
-   : Unit {Forward<Unit>(other)}
+   : A::Window {Forward<A::Window>(other)}
    , ProducedFrom {Forward<ProducedFrom>(other)}
    , mGLFWWindow {Move(other.mGLFWWindow)}
    , mScrollChange {other.mScrollChange} {
@@ -106,7 +107,7 @@ Window::Window(Window&& other) noexcept
 /// Move-copy window                                                          
 ///   @param other - the window to move                                       
 Window& Window::operator = (Window&& other) noexcept {
-   Unit::operator = (Forward<Unit>(other));
+   A::Window::operator = (Forward<A::Window>(other));
    mGLFWWindow = Move(other.mGLFWWindow);
    mScrollChange = other.mScrollChange;
    if (mGLFWWindow)
@@ -234,11 +235,6 @@ bool Window::IsInFocus() const {
    return glfwGetWindowAttrib(mGLFWWindow, GLFW_FOCUSED) == GLFW_TRUE;
 }
 
-/// Check if window is minimized                                              
-bool Window::IsMinimized() const {
-   return glfwGetWindowAttrib(mGLFWWindow, GLFW_ICONIFIED) == GLFW_TRUE;
-}
-
 /// Check if window is in focus                                               
 bool Window::IsMouseOver() const {
    return glfwGetWindowAttrib(mGLFWWindow, GLFW_HOVERED) == GLFW_TRUE;
@@ -247,11 +243,6 @@ bool Window::IsMouseOver() const {
 /// Check if window interacts on inputs                                       
 bool Window::IsInteractable() const {
    return !IsClosed() && IsInFocus() && !IsMinimized();
-}
-
-/// Get the native window handle                                              
-void* Window::GetNativeWindowHandle() const noexcept {
-   return mNativeWindowHandle;
 }
 
 /// Accumulate text input                                                     
@@ -264,6 +255,23 @@ void Window::AccumulateScroll(const Vec2& offset) noexcept {
    mScrollChange += offset;
 }
 
+/// Get the native window handle                                              
+///   @return the native window handle as void*                               
+void* Window::GetNativeHandle() const noexcept {
+   return mNativeWindowHandle;
+}
+
+/// Get the size of the window                                                
+///   @return the size of the window                                          
+Math::Vec2 Window::GetSize() const noexcept {
+   return *mSize;
+}
+
+/// Check if window is minimized                                              
+///   @return true if window is minimized                                     
+bool Window::IsMinimized() const noexcept {
+   return glfwGetWindowAttrib(mGLFWWindow, GLFW_ICONIFIED) == GLFW_TRUE;
+}
 
 
 ///                                                                           
@@ -286,7 +294,7 @@ void OnClosed(GLFWwindow* window) {
    glfwHideWindow(window);
 
    Verbs::Interact interact {
-      Events::WindowClose {canvas->GetNativeWindowHandle()}
+      Events::WindowClose {canvas->GetNativeHandle()}
    };
    canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
 }
@@ -702,13 +710,13 @@ void OnFocus(GLFWwindow* window, int focused) {
 
    if (focused) {
       Verbs::Interact interact {
-         Events::WindowFocus {canvas->GetNativeWindowHandle()}
+         Events::WindowFocus {canvas->GetNativeHandle()}
       };
       canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
    }
    else {
       Verbs::Interact interact {
-         Events::WindowUnfocus {canvas->GetNativeWindowHandle()}
+         Events::WindowUnfocus {canvas->GetNativeHandle()}
       };
       canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
    }
@@ -724,13 +732,13 @@ void OnMinimize(GLFWwindow* window, int iconified) {
 
    if (iconified) {
       Verbs::Interact interact {
-         Events::WindowMinimize {canvas->GetNativeWindowHandle()}
+         Events::WindowMinimize {canvas->GetNativeHandle()}
       };
       canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
    }
    else {
       Verbs::Interact interact {
-         Events::WindowMaximize {canvas->GetNativeWindowHandle()}
+         Events::WindowMaximize {canvas->GetNativeHandle()}
       };
       canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
    }
@@ -745,7 +753,9 @@ void OnResolutionChange(GLFWwindow* window, int x, int y) {
    if (canvas->IsClosed())
       return;
 
-   Verbs::Interact interact {Events::WindowResolutionChange {Vec2(x, y)}};
+   Verbs::Interact interact {
+      Events::WindowResolutionChange {Vec2(x, y)}
+   };
    canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
 }
 
@@ -759,13 +769,13 @@ void OnHover(GLFWwindow* window, int entered) {
 
    if (entered) {
       Verbs::Interact interact {
-         Events::WindowMouseHoverIn {canvas->GetNativeWindowHandle()}
+         Events::WindowMouseHoverIn {canvas->GetNativeHandle()}
       };
       canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
    }
    else {
       Verbs::Interact interact {
-         Events::WindowMouseHoverOut {canvas->GetNativeWindowHandle()}
+         Events::WindowMouseHoverOut {canvas->GetNativeHandle()}
       };
       canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
    }
