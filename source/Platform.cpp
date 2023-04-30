@@ -40,6 +40,9 @@ Platform::Platform(Runtime* runtime, const Any&)
 
 /// Module destruction                                                        
 Platform::~Platform() {
+   // Destroy windows first                                             
+   mWindows.Reset();
+   // Terminate GLFW                                                    
    glfwTerminate();
 }
 

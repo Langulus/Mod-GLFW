@@ -8,6 +8,7 @@
 #include "Window.hpp"
 #include "Platform.hpp"
 #include "Event.hpp"
+#include <Flow/Verbs/Interact.hpp>
 #include <GLFW/glfw3native.h>
 
 /// Get native window handle as type-erased void pointer                      
@@ -90,6 +91,7 @@ Window::Window(::Platform* producer, const Any& descriptor)
       glfwSetInputMode(mGLFWWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
    mNativeWindowHandle = GetNativeWindowPointer(mGLFWWindow);
+   //Logger::Verbose(Self(), "Window created");
 }
 
 /// Move-construct window                                                     
