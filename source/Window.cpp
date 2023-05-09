@@ -171,7 +171,6 @@ void Window::Update() {
       mMouseScroll.Current() += mScrollChange;
       mScrollChange = {};
 
-
       // Check if mouse position has changed, and add specific events   
       auto md = mMousePosition.Delta();
       if (md[0] != 0) {

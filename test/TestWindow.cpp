@@ -6,7 +6,6 @@
 /// See LICENSE file, or https://www.gnu.org/licenses                         
 ///                                                                           
 #include "Main.hpp"
-//#include <Entity/Thing.hpp>
 #include <catch2/catch.hpp>
 
 #if LANGULUS_FEATURE(MEMORY_STATISTICS)

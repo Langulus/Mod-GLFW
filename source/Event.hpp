@@ -75,35 +75,51 @@ namespace Langulus
       // Payload, for additional data                                   
       Any mPayload;
 
-      template<class, class... PAYLOAD>
-      static Event Create(EventState, PAYLOAD&&...);
+      template<CT::Data... PAYLOAD>
+      Event(DMeta, EventState, PAYLOAD&&...);
    };
 
    namespace CT
    {
+
+      /// Concept for detecting any Event type specialization                 
       template<class... T>
       concept Event = (DerivedFrom<T, ::Langulus::Event> && ...);
-   }
 
+   } // namespace Langulus::CT
+
+
+   /// Define an event specialization in ::Langulus::Events namespace         
+   ///   @param EVENT - name of the event type                                
+   ///   @param INFOSTRING - info string for the event                        
    #define LANGULUS_DEFINE_EVENT(EVENT, INFOSTRING) \
       namespace Events { \
-         struct EVENT : public ::Langulus::Event { \
+         struct EVENT : Event { \
             LANGULUS(INFO) INFOSTRING; \
-            LANGULUS_BASES(::Langulus::Event); \
-            template<class... ARGUMENTS> \
+            LANGULUS_BASES(Event); \
+            template<CT::Data... ARGUMENTS> \
             EVENT(ARGUMENTS&&... payload) \
-               : Event {Event::Create<EVENT>({}, Forward<ARGUMENTS>(payload)...)} {} \
+               : Event { \
+                  MetaData::Of<EVENT>(), {}, \
+                  Forward<ARGUMENTS>(payload)... \
+               } {} \
          }; \
       }
 
+   /// Define an event specialization in ::Langulus::Keys namespace           
+   ///   @param EVENT - name of the key type                                  
+   ///   @param INFOSTRING - info string for the key                          
    #define LANGULUS_DEFINE_KEY(EVENT, INFOSTRING) \
       namespace Keys { \
-         struct EVENT : public ::Langulus::Event { \
+         struct EVENT : Event { \
             LANGULUS(INFO) INFOSTRING; \
-            LANGULUS_BASES(::Langulus::Event); \
-            template<class... ARGUMENTS> \
+            LANGULUS_BASES(Event); \
+            template<CT::Data... ARGUMENTS> \
             EVENT(EventState state, ARGUMENTS&&... payload) \
-               : Event {Event::Create<EVENT>(state, Forward<ARGUMENTS>(payload)...)} {} \
+               : Event { \
+                  MetaData::Of<EVENT>(), state, \
+                  Forward<ARGUMENTS>(payload)... \
+               } {} \
          }; \
       }
 

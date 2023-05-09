@@ -61,17 +61,15 @@ namespace Langulus
    }
 
    /// Instantiate an event of a specific type                                
+   ///   @param type - the type of the event                                  
    ///   @param state - the state of the event                                
    ///   @param payload... - any number of arguments to carry in the event    
    ///   @return the event                                                    
-   template<class T, class... PAYLOAD>
-   Event Event::Create(EventState state, PAYLOAD&&... payload) {
-      static_assert(CT::Event<T>, "T must be an event type");
-      return {
-         MetaOf<T>(), state, 
-         SteadyClock::now(), 
-         Any {Forward<PAYLOAD>(payload)...}
-      };
-   }
+   template<CT::Data... PAYLOAD>
+   Event::Event(DMeta type, EventState state, PAYLOAD&&... payload)
+      : mType {type}
+      , mState {state}
+      , mTimestamp {SteadyClock::now()}
+      , mPayload {Forward<PAYLOAD>(payload)...} {}
 
 } // namespace Langulus
