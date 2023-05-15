@@ -74,7 +74,7 @@ public:
    NOD() bool IsInteractable() const;
 
    NOD() void* GetNativeHandle() const noexcept;
-   NOD() Math::Vec2 GetSize() const noexcept;
+   NOD() Math::Scale2 GetSize() const noexcept;
    NOD() bool IsMinimized() const noexcept;
 
    void Update();

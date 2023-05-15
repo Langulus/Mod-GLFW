@@ -57,7 +57,7 @@ Window::Window(::Platform* producer, const Any& descriptor)
    // Create the canvas                                                 
    mGLFWWindow = glfwCreateWindow(
       int(mSize[0]), int(mSize[1]),
-      const_cast<char*>(mTitle->Terminate().GetRaw()),
+      const_cast<char*>(mTitle.Terminate().GetRaw()),
       nullptr, nullptr
    );
 
@@ -131,7 +131,7 @@ void Window::Refresh() {
    // Refresh unpinned properties from hierarchy                        
    SeekTrait<Traits::Size>(mSize);
    if (SeekTrait<Traits::Name>(mTitle))
-      glfwSetWindowTitle(mGLFWWindow, mTitle->Terminate().GetRaw());
+      glfwSetWindowTitle(mGLFWWindow, mTitle.Terminate().GetRaw());
 }
 
 /// Associate some specific traits of a window                                
@@ -223,7 +223,7 @@ void Window::Update() {
 ///   @param x - horizontal size                                              
 ///   @param y - vertical size                                                
 void Window::SetSize(int x, int y) {
-   mSize = {x, y};
+   mSize = Scale2 {x, y};
 }
 
 /// Check if window is closed                                                 
@@ -264,8 +264,8 @@ void* Window::GetNativeHandle() const noexcept {
 
 /// Get the size of the window                                                
 ///   @return the size of the window                                          
-Math::Vec2 Window::GetSize() const noexcept {
-   return *mSize;
+Math::Scale2 Window::GetSize() const noexcept {
+   return mSize;
 }
 
 /// Check if window is minimized                                              

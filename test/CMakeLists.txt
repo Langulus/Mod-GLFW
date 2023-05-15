@@ -1,17 +1,22 @@
-project(Langulus.Test.Mod.GLFW)
+project(LangulusModGLFWTest)
 
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} LANGULUS_MOD_GLFW_TEST_SOURCES)
-add_executable(Test.Mod.GLFW ${LANGULUS_MOD_GLFW_TEST_SOURCES})
+add_executable(LangulusModGLFWTest
+	Main.cpp
+	TestWindow.cpp
+)
 
-target_link_libraries(Test.Mod.GLFW
-	PRIVATE		Langulus.Framework
+target_link_libraries(LangulusModGLFWTest
+	PRIVATE		Langulus
 				Catch2
 )
 
-add_dependencies(Test.Mod.GLFW Mod.GLFW)
-langulus_copy_dlls(
-	TO		Test.Mod.GLFW
-	FROM	Langulus.Framework Mod.GLFW
+add_test(
+	NAME		LangulusModGLFWTest
+	COMMAND		LangulusModGLFWTest
 )
 
-add_test(NAME Test.Mod.GLFW COMMAND Test.Mod.GLFW)
+langulus_copy_dlls(LangulusModGLFWTest ON LangulusModGLFWTest)
+langulus_copy_dlls_advanced(LangulusModGLFWTest
+	TO			LangulusModGLFWTest
+	FROM		LangulusModGLFW
+)
