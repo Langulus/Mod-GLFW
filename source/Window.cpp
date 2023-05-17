@@ -43,7 +43,7 @@ void OnFileDrop(GLFWwindow*, int count, const char** paths);
 /// Window construction                                                       
 ///   @param producer - window owner                                          
 ///   @param descriptor - window descriptor                                   
-Window::Window(::Platform* producer, const Any& descriptor)
+Window::Window(::Platform* producer, const Descriptor& descriptor)
    : A::Window {MetaOf<Window>(), descriptor}
    , ProducedFrom {producer, descriptor} {
    // Extract properties from descriptor and hierarchy                  

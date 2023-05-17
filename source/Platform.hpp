@@ -28,7 +28,7 @@ private:
    Count mOpenedWindows {};
 
 public:
-   Platform(Runtime*, const Any&);
+   Platform(Runtime*, const Descriptor&);
    ~Platform();
 
    void Update(Time);

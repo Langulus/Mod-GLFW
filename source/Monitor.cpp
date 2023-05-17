@@ -12,6 +12,6 @@
 /// Monitor construction                                                      
 ///   @param producer - monitor owner                                         
 ///   @param descriptor - monitor descriptor                                  
-Monitor::Monitor(::Platform* producer, const Any& descriptor)
+Monitor::Monitor(::Platform* producer, const Descriptor& descriptor)
    : A::Platform {MetaOf<Monitor>(), descriptor}
    , ProducedFrom {producer, descriptor} { }

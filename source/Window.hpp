@@ -59,7 +59,7 @@ private:
    LANGULUS_PROPERTIES_END();
 
 public:
-   Window(::Platform*, const Any&);
+   Window(::Platform*, const Descriptor&);
    Window(Window&&) noexcept;
    ~Window();
 

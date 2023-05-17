@@ -23,7 +23,7 @@ void ErrorRelay(int error, const char* description) {
 /// Module construction                                                       
 ///   @param runtime - the runtime that owns the module                       
 ///   @param descriptor - instructions for configuring the module             
-Platform::Platform(Runtime* runtime, const Any&)
+Platform::Platform(Runtime* runtime, const Descriptor&)
    : A::PlatformModule {MetaOf<Platform>(), runtime}
    , mWindows {this} {
    Logger::Verbose(Self(), "Initializing...");

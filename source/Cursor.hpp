@@ -18,7 +18,7 @@ struct Cursor final : A::Platform, ProducedFrom<::Platform> {
    LANGULUS_BASES(A::Platform);
 
 public:
-   Cursor(::Platform*, const Any&);
+   Cursor(::Platform*, const Descriptor&);
 
    void Refresh() final {}
 };
