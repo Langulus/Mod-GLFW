@@ -75,6 +75,12 @@ namespace Langulus
       // Payload, for additional data                                   
       Any mPayload;
 
+      Event(const Event&);
+      Event(Event&&);
+
+      template<CT::Semantic SEMANTIC>
+      Event(SEMANTIC&&) requires (CT::Exact<TypeOf<SEMANTIC>, Event>);
+
       template<CT::Data... PAYLOAD>
       Event(DMeta, EventState, PAYLOAD&&...);
    };
@@ -97,6 +103,11 @@ namespace Langulus
          struct EVENT : Event { \
             LANGULUS(INFO) INFOSTRING; \
             LANGULUS_BASES(Event); \
+            EVENT(const EVENT& e) : EVENT {Copy(e)} {} \
+            EVENT(EVENT&& e) : EVENT {Move(e)} {} \
+            template<CT::Semantic SEMANTIC> \
+            EVENT(SEMANTIC&& e) requires (CT::Exact<TypeOf<SEMANTIC>, EVENT>) \
+               : Event {e.template Forward<Event>()} {} \
             template<CT::Data... ARGUMENTS> \
             EVENT(ARGUMENTS&&... payload) \
                : Event { \
@@ -114,6 +125,11 @@ namespace Langulus
          struct EVENT : Event { \
             LANGULUS(INFO) INFOSTRING; \
             LANGULUS_BASES(Event); \
+            EVENT(const EVENT& e) : EVENT {Copy(e)} {} \
+            EVENT(EVENT&& e) : EVENT {Move(e)} {} \
+            template<CT::Semantic SEMANTIC> \
+            EVENT(SEMANTIC&& e) requires (CT::Exact<TypeOf<SEMANTIC>, EVENT>) \
+               : Event {e.template Forward<Event>()} {} \
             template<CT::Data... ARGUMENTS> \
             EVENT(EventState state, ARGUMENTS&&... payload) \
                : Event { \
