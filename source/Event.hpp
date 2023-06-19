@@ -111,7 +111,7 @@ namespace Langulus
             template<CT::Data... ARGUMENTS> \
             EVENT(ARGUMENTS&&... payload) \
                : Event { \
-                  MetaData::Of<EVENT>(), {}, \
+                  MetaOf<EVENT>(), {}, \
                   Forward<ARGUMENTS>(payload)... \
                } {} \
          }; \
@@ -133,7 +133,7 @@ namespace Langulus
             template<CT::Data... ARGUMENTS> \
             EVENT(EventState state, ARGUMENTS&&... payload) \
                : Event { \
-                  MetaData::Of<EVENT>(), state, \
+                  MetaOf<EVENT>(), state, \
                   Forward<ARGUMENTS>(payload)... \
                } {} \
          }; \
