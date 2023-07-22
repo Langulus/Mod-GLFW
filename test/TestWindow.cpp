@@ -41,7 +41,7 @@ SCENARIO("Window creation", "[window]") {
             THEN("Various traits change") {
                root.DumpHierarchy();
 
-               REQUIRE_FALSE(window.IsEmpty());
+               REQUIRE_FALSE(!window);
                REQUIRE(window.IsSparse());
                REQUIRE(window.CastsTo<A::Window>());
             }

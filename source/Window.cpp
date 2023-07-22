@@ -212,7 +212,7 @@ void Window::Update() {
       }
    }
 
-   if (!mTextInput.IsEmpty()) {
+   if (mTextInput) {
       // Interact using queried text input for the window               
       Verbs::Interact interact {Events::WindowText{Move(mTextInput)}};
       DoInHierarchy<Seek::HereAndBelow>(interact);
