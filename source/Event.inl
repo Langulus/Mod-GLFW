@@ -131,7 +131,7 @@ namespace Langulus
    Event::Event(DMeta type, EventState state, PAYLOAD&&... payload)
       : mType {type}
       , mState {state}
-      , mTimestamp {SteadyClock::now()}
+      , mTimestamp {SteadyClock::Now()}
       , mPayload {Forward<PAYLOAD>(payload)...} {}
 
 } // namespace Langulus

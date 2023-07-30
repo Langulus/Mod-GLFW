@@ -176,19 +176,19 @@ void Window::Update() {
       if (md[0] != 0) {
          // Horizontal mouse movement                                   
          Verbs::Interact interact {Events::MouseMoveHorizontal{md[0]}};
-         DoInHierarchy<Seek::HereAndBelow>(interact);
+         RunIn<Seek::HereAndBelow>(interact);
       }
 
       if (md[1] != 0) {
          // Vertical mouse movement                                     
          Verbs::Interact interact {Events::MouseMoveVertical{md[1]}};
-         DoInHierarchy<Seek::HereAndBelow>(interact);
+         RunIn<Seek::HereAndBelow>(interact);
       }
 
       if (md[0] != 0 || md[1] != 0) {
          // Any mouse movement                                          
          Verbs::Interact interact {Events::MouseMove{md}};
-         DoInHierarchy<Seek::HereAndBelow>(interact);
+         RunIn<Seek::HereAndBelow>(interact);
       }
 
       // Check if mouse scroll has changed, and add specific events     
@@ -196,26 +196,26 @@ void Window::Update() {
       if (ms[0] != 0) {
          // Horizontal scrolling                                        
          Verbs::Interact interact {Events::MouseScrollHorizontal{ms[0]}};
-         DoInHierarchy<Seek::HereAndBelow>(interact);
+         RunIn<Seek::HereAndBelow>(interact);
       }
 
       if (ms[1] != 0) {
          // Vertical scrolling                                          
          Verbs::Interact interact {Events::MouseScrollVertical{ms[1]}};
-         DoInHierarchy<Seek::HereAndBelow>(interact);
+         RunIn<Seek::HereAndBelow>(interact);
       }
 
       if (ms[0] != 0 || ms[1] != 0) {
          // Any mouse scrolling                                         
          Verbs::Interact interact {Events::MouseScroll{ms}};
-         DoInHierarchy<Seek::HereAndBelow>(interact);
+         RunIn<Seek::HereAndBelow>(interact);
       }
    }
 
    if (mTextInput) {
       // Interact using queried text input for the window               
       Verbs::Interact interact {Events::WindowText{Move(mTextInput)}};
-      DoInHierarchy<Seek::HereAndBelow>(interact);
+      RunIn<Seek::HereAndBelow>(interact);
    }
 }
 
@@ -297,7 +297,7 @@ void OnClosed(GLFWwindow* window) {
    Verbs::Interact interact {
       Events::WindowClose {canvas->GetNativeHandle()}
    };
-   canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+   canvas->RunIn<Seek::HereAndBelow>(interact);
 }
 
 /// On key/mouse press/move                                                   
@@ -669,7 +669,7 @@ void OnKeyboardKey(GLFWwindow* window, int key, int scancode, int action, int mo
       return;
    }
 
-   canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+   canvas->RunIn<Seek::HereAndBelow>(interact);
 }
 
 /// On window moved                                                           
@@ -682,7 +682,7 @@ void OnMove(GLFWwindow* window, int x, int y) {
       return;
 
    Verbs::Interact interact {Events::WindowMove {Vec2(x, y)}};
-   canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+   canvas->RunIn<Seek::HereAndBelow>(interact);
 }
 
 /// On window resized                                                         
@@ -698,7 +698,7 @@ void OnResize(GLFWwindow* window, int x, int y) {
    canvas->SetSize(x, y);
 
    Verbs::Interact interact {Events::WindowResize {Vec2(x, y)}};
-   canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+   canvas->RunIn<Seek::HereAndBelow>(interact);
 }
 
 /// On window focused or not                                                  
@@ -713,13 +713,13 @@ void OnFocus(GLFWwindow* window, int focused) {
       Verbs::Interact interact {
          Events::WindowFocus {canvas->GetNativeHandle()}
       };
-      canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+      canvas->RunIn<Seek::HereAndBelow>(interact);
    }
    else {
       Verbs::Interact interact {
          Events::WindowUnfocus {canvas->GetNativeHandle()}
       };
-      canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+      canvas->RunIn<Seek::HereAndBelow>(interact);
    }
 }
 
@@ -735,13 +735,13 @@ void OnMinimize(GLFWwindow* window, int iconified) {
       Verbs::Interact interact {
          Events::WindowMinimize {canvas->GetNativeHandle()}
       };
-      canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+      canvas->RunIn<Seek::HereAndBelow>(interact);
    }
    else {
       Verbs::Interact interact {
          Events::WindowMaximize {canvas->GetNativeHandle()}
       };
-      canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+      canvas->RunIn<Seek::HereAndBelow>(interact);
    }
 }
 
@@ -757,7 +757,7 @@ void OnResolutionChange(GLFWwindow* window, int x, int y) {
    Verbs::Interact interact {
       Events::WindowResolutionChange {Vec2(x, y)}
    };
-   canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+   canvas->RunIn<Seek::HereAndBelow>(interact);
 }
 
 /// On mouse enter window                                                     
@@ -772,13 +772,13 @@ void OnHover(GLFWwindow* window, int entered) {
       Verbs::Interact interact {
          Events::WindowMouseHoverIn {canvas->GetNativeHandle()}
       };
-      canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+      canvas->RunIn<Seek::HereAndBelow>(interact);
    }
    else {
       Verbs::Interact interact {
          Events::WindowMouseHoverOut {canvas->GetNativeHandle()}
       };
-      canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+      canvas->RunIn<Seek::HereAndBelow>(interact);
    }
 }
 
@@ -824,7 +824,7 @@ void OnMouseKey(GLFWwindow* window, int button, int action, int) {
       return;
    }
 
-   canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+   canvas->RunIn<Seek::HereAndBelow>(interact);
 }
 
 /// Returns last written UTF-32 character, affected by mod keys, language     
@@ -866,5 +866,5 @@ void OnFileDrop(GLFWwindow* window, int count, const char** paths) {
       dropped.mPayload << Text {paths[i]};
 
    Verbs::Interact interact {dropped};
-   canvas->DoInHierarchy<Seek::HereAndBelow>(interact);
+   canvas->RunIn<Seek::HereAndBelow>(interact);
 }
