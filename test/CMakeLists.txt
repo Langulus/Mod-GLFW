@@ -1,5 +1,3 @@
-project(LangulusModGLFWTest)
-
 add_executable(LangulusModGLFWTest
 	Main.cpp
 	TestWindow.cpp
