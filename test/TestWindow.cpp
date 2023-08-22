@@ -29,13 +29,27 @@ SCENARIO("Window creation", "[window]") {
          // Load GLFW module                                            
          root.LoadMod("GLFW");
 
-         WHEN("The window is created") {
+      #if LANGULUS_FEATURE(MANAGED_REFLECTION)
+         WHEN("The window is created via token") {
             auto window = root.CreateUnitToken("Window");
 
             THEN("Various traits change") {
                root.DumpHierarchy();
 
-               REQUIRE(window);
+               REQUIRE(window.GetCount() == 1);
+               REQUIRE(window.IsSparse());
+               REQUIRE(window.CastsTo<A::Window>());
+            }
+         }
+      #endif
+         
+         WHEN("The window is created via abstraction") {
+            auto window = root.CreateUnit<A::Window>();
+
+            THEN("Various traits change") {
+               root.DumpHierarchy();
+
+               REQUIRE(window.GetCount() == 1);
                REQUIRE(window.IsSparse());
                REQUIRE(window.CastsTo<A::Window>());
             }

@@ -3,7 +3,6 @@ project(LangulusModGLFW
     VERSION         1.0.0
     DESCRIPTION     "Langulus plug-in module for managing native windows using the GLFW library"
     HOMEPAGE_URL    https://langulus.com
-    LANGUAGES       CXX
 )
 
 # Configure GLFW library, it will be statically built inside this module        
