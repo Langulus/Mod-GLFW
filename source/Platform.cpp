@@ -23,7 +23,7 @@ void ErrorRelay(int error, const char* description) {
 /// Module construction                                                       
 ///   @param runtime - the runtime that owns the module                       
 ///   @param descriptor - instructions for configuring the module             
-Platform::Platform(Runtime* runtime, const Descriptor&)
+Platform::Platform(Runtime* runtime, const Neat&)
    : A::PlatformModule {MetaOf<Platform>(), runtime}
    , mWindows {this} {
    Logger::Verbose(Self(), "Initializing...");
@@ -32,7 +32,7 @@ Platform::Platform(Runtime* runtime, const Descriptor&)
    glfwSetErrorCallback(ErrorRelay);
 
    // Initialize GLFW                                                   
-   if (!glfwInit())
+   if (not glfwInit())
       LANGULUS_THROW(Construct, "Error initializing GLFW");
 
    Logger::Verbose(Self(), "Initialized");

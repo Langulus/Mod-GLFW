@@ -12,6 +12,6 @@
 /// Cursor construction                                                       
 ///   @param producer - cursor owner                                          
 ///   @param descriptor - cursor descriptor                                   
-Cursor::Cursor(::Platform* producer, const Descriptor& descriptor)
+Cursor::Cursor(::Platform* producer, const Neat& descriptor)
    : A::Platform {MetaOf<Cursor>(), descriptor}
    , ProducedFrom {producer, descriptor} { }

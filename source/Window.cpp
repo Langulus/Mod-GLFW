@@ -9,6 +9,7 @@
 #include "Platform.hpp"
 #include "Event.hpp"
 #include <Flow/Verbs/Interact.hpp>
+#include <Flow/Verbs/Interpret.hpp>
 #include <GLFW/glfw3native.h>
 
 /// Get native window handle as type-erased void pointer                      
@@ -43,7 +44,7 @@ void OnFileDrop(GLFWwindow*, int count, const char** paths);
 /// Window construction                                                       
 ///   @param producer - window owner                                          
 ///   @param descriptor - window descriptor                                   
-Window::Window(::Platform* producer, const Descriptor& descriptor)
+Window::Window(::Platform* producer, const Neat& descriptor)
    : A::Window {MetaOf<Window>(), descriptor}
    , ProducedFrom {producer, descriptor} {
    // Extract properties from descriptor and hierarchy                  
@@ -61,7 +62,7 @@ Window::Window(::Platform* producer, const Descriptor& descriptor)
       nullptr, nullptr
    );
 
-   if (!mGLFWWindow)
+   if (not mGLFWWindow)
       LANGULUS_THROW(Construct, "Failed to initialize window");
 
    // Set the callbacks and user pointers for the canvas pipe           
@@ -150,7 +151,7 @@ void Window::Associate(Verb& verb) {
 
 /// Update the window                                                         
 void Window::Update() {
-   if (!mGLFWWindow)
+   if (not mGLFWWindow)
       return;
 
    // Expose the current clipboard - it might be used by other modules, 
@@ -243,7 +244,7 @@ bool Window::IsMouseOver() const {
 
 /// Check if window interacts on inputs                                       
 bool Window::IsInteractable() const {
-   return !IsClosed() && IsInFocus() && !IsMinimized();
+   return not IsClosed() and IsInFocus() and not IsMinimized();
 }
 
 /// Accumulate text input                                                     
@@ -289,7 +290,7 @@ auto GetUnit(GLFWwindow* window) {
 ///   @param window - the event's owner                                       
 void OnClosed(GLFWwindow* window) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    glfwHideWindow(window);
@@ -308,7 +309,7 @@ void OnClosed(GLFWwindow* window) {
 ///   @param mods - i guess it has something to do with key combinations      
 void OnKeyboardKey(GLFWwindow* window, int key, int scancode, int action, int mods) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    Verbs::Interact interact {};
@@ -678,7 +679,7 @@ void OnKeyboardKey(GLFWwindow* window, int key, int scancode, int action, int mo
 ///   @param y - new position (vertical screen offset in pixels)              
 void OnMove(GLFWwindow* window, int x, int y) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    Verbs::Interact interact {Events::WindowMove {Vec2(x, y)}};
@@ -691,7 +692,7 @@ void OnMove(GLFWwindow* window, int x, int y) {
 ///   @param y - new scale (height in pixels)                                 
 void OnResize(GLFWwindow* window, int x, int y) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    // Update hierarchy                                                  
@@ -765,7 +766,7 @@ void OnResolutionChange(GLFWwindow* window, int x, int y) {
 ///   @param entered - zero if leave, one if entered                          
 void OnHover(GLFWwindow* window, int entered) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    if (entered) {
@@ -789,7 +790,7 @@ void OnHover(GLFWwindow* window, int entered) {
 ///   @param mods - mods for button combinations                              
 void OnMouseKey(GLFWwindow* window, int button, int action, int) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    Verbs::Interact interact {};
@@ -833,7 +834,7 @@ void OnMouseKey(GLFWwindow* window, int button, int action, int) {
 ///   @param codepoint - UTF-32 code point                                    
 void OnTextInput(GLFWwindow* window, unsigned codepoint) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    //TODO
@@ -846,7 +847,7 @@ void OnTextInput(GLFWwindow* window, unsigned codepoint) {
 ///   @param yoffset - the new mouse y position                               
 void OnMouseScroll(GLFWwindow* window, double xoffset, double yoffset) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    canvas->AccumulateScroll({xoffset, yoffset});
@@ -858,7 +859,7 @@ void OnMouseScroll(GLFWwindow* window, double xoffset, double yoffset) {
 ///   @param paths - deep container with filenames                            
 void OnFileDrop(GLFWwindow* window, int count, const char** paths) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    Events::WindowFileDrop dropped;

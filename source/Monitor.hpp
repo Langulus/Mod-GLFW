@@ -18,7 +18,7 @@ struct Monitor final : A::Platform, ProducedFrom<::Platform> {
    LANGULUS_BASES(A::Platform);
 
 public:
-   Monitor(::Platform*, const Descriptor&);
+   Monitor(::Platform*, const Neat&);
 
    void Refresh() final {}
 };
