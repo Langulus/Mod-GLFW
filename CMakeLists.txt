@@ -36,7 +36,7 @@ target_link_libraries(LangulusModGLFW
                 glfw
 )
 
-if(LANGULUS_ENABLE_TESTING)
+if(LANGULUS_TESTING)
     enable_testing()
 	add_subdirectory(test)
 endif()
