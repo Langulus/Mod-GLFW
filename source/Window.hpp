@@ -7,7 +7,7 @@
 ///                                                                           
 #pragma once
 #include "Cursor.hpp"
-#include <Math/Gradients.hpp>
+#include <Math/Gradient.hpp>
 
 
 ///                                                                           
