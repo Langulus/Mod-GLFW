@@ -8,6 +8,7 @@
 #pragma once
 #include "Common.hpp"
 
+
 namespace Langulus
 {
 
@@ -30,7 +31,7 @@ namespace Langulus
          End = 2,
       };
 
-      using Type = ::std::underlying_type_t<Enum>;
+      using Type = TypeOf<Enum>;
 
       Type mState {Point};
 
@@ -75,14 +76,11 @@ namespace Langulus
       // Payload, for additional data                                   
       Any mPayload;
 
-      Event(const Event&);
-      Event(Event&&);
+      Event(const Event&) = default;
+      Event(Event&&) = default;
 
-      template<CT::Semantic SEMANTIC>
-      Event(SEMANTIC&&) requires (CT::Exact<TypeOf<SEMANTIC>, Event>);
-
-      template<CT::Data... PAYLOAD>
-      Event(DMeta, EventState, PAYLOAD&&...);
+      template<class... T>
+      Event(T&&...) requires (::std::constructible_from<Any, T&&...>);
    };
 
    namespace CT
@@ -90,7 +88,8 @@ namespace Langulus
 
       /// Concept for detecting any Event type specialization                 
       template<class... T>
-      concept Event = (DerivedFrom<T, ::Langulus::Event> && ...);
+      concept Event = ((DerivedFrom<T, ::Langulus::Event> 
+          and sizeof(T) == sizeof(::Langulus::Event)) and ...);
 
    } // namespace Langulus::CT
 
@@ -103,17 +102,11 @@ namespace Langulus
          struct EVENT : Event { \
             LANGULUS(INFO) INFOSTRING; \
             LANGULUS_BASES(Event); \
-            EVENT(const EVENT& e) : EVENT {Copy(e)} {} \
-            EVENT(EVENT&& e) : EVENT {Move(e)} {} \
-            template<CT::Semantic SEMANTIC> \
-            EVENT(SEMANTIC&& e) requires (CT::Exact<TypeOf<SEMANTIC>, EVENT>) \
-               : Event {e.template Forward<Event>()} {} \
-            template<CT::Data... ARGUMENTS> \
-            EVENT(ARGUMENTS&&... payload) \
-               : Event { \
-                  MetaOf<EVENT>(), {}, \
-                  Forward<ARGUMENTS>(payload)... \
-               } {} \
+            template<class... T_> \
+            EVENT(T_&&...a) requires (::std::constructible_from<Event, T_&&...>) \
+               : Event {Forward<T_>(a)...} { \
+               mType = MetaOf<EVENT>(); \
+            } \
          }; \
       }
 
@@ -125,17 +118,12 @@ namespace Langulus
          struct EVENT : Event { \
             LANGULUS(INFO) INFOSTRING; \
             LANGULUS_BASES(Event); \
-            EVENT(const EVENT& e) : EVENT {Copy(e)} {} \
-            EVENT(EVENT&& e) : EVENT {Move(e)} {} \
-            template<CT::Semantic SEMANTIC> \
-            EVENT(SEMANTIC&& e) requires (CT::Exact<TypeOf<SEMANTIC>, EVENT>) \
-               : Event {e.template Forward<Event>()} {} \
-            template<CT::Data... ARGUMENTS> \
-            EVENT(EventState state, ARGUMENTS&&... payload) \
-               : Event { \
-                  MetaOf<EVENT>(), state, \
-                  Forward<ARGUMENTS>(payload)... \
-               } {} \
+            template<class... T_> \
+            EVENT(EventState state, T_&&...a) requires (::std::constructible_from<Event, T_&&...>) \
+               : Event {Forward<T_>(a)...} { \
+               mType = MetaOf<EVENT>(); \
+               mState = state; \
+            } \
          }; \
       }
 

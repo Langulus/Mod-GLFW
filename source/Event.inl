@@ -8,6 +8,7 @@
 #pragma once
 #include "Event.hpp"
 
+
 namespace Langulus
 {
 
@@ -97,41 +98,13 @@ namespace Langulus
       mState = 0;
    }
 
-   /// Copy construction                                                      
-   ///   @tparam other - the event to shallow-copy                            
-   LANGULUS(INLINED)
-   Event::Event(const Event& other)
-      : Event {Copy(other)} {}
-
-   /// Move construction                                                      
-   ///   @tparam other - the event to move                                    
-   LANGULUS(INLINED)
-   Event::Event(Event&& other)
-      : Event {Move(other)} {}
-
-   /// Semantic construction                                                  
-   ///   @tparam S - the semantic (deducible)                                 
-   ///   @tparam other - the semantic and event to construct with             
-   template<CT::Semantic SEMANTIC>
-   LANGULUS(INLINED)
-   Event::Event(SEMANTIC&& other) requires (CT::Exact<TypeOf<SEMANTIC>, Event>)
-      : mType {other->mType}
-      , mState {other->mState}
-      , mTimestamp {other->mTimestamp}
-      , mPayload {SEMANTIC::Nest(other->mPayload)} {}
-
    /// Instantiate an event of a specific type, manually                      
    /// This constructor also generates the timestamp                          
-   ///   @param type - the type of the event                                  
-   ///   @param state - the state of the event                                
-   ///   @param payload... - any number of arguments to carry in the event    
-   ///   @return the event                                                    
-   template<CT::Data... PAYLOAD>
+   ///   @param a... - any number of arguments to carry in the event          
+   template<class... T>
    LANGULUS(INLINED)
-   Event::Event(DMeta type, EventState state, PAYLOAD&&... payload)
-      : mType {type}
-      , mState {state}
-      , mTimestamp {SteadyClock::Now()}
-      , mPayload {Forward<PAYLOAD>(payload)...} {}
+   Event::Event(T&&...a) requires (::std::constructible_from<Any, T&&...>)
+      : mTimestamp {SteadyClock::Now()}
+      , mPayload {Forward<T>(a)...} {}
 
 } // namespace Langulus

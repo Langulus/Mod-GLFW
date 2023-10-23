@@ -57,8 +57,8 @@ Window::Window(::Platform* producer, const Neat& descriptor)
 
    // Create the canvas                                                 
    mGLFWWindow = glfwCreateWindow(
-      int(mSize[0]), int(mSize[1]),
-      const_cast<char*>(mTitle.Terminate().GetRaw()),
+      int((*mSize)[0]), int((*mSize)[1]),
+      mTitle->Terminate().GetRaw(),
       nullptr, nullptr
    );
 
@@ -66,21 +66,21 @@ Window::Window(::Platform* producer, const Neat& descriptor)
       LANGULUS_THROW(Construct, "Failed to initialize window");
 
    // Set the callbacks and user pointers for the canvas pipe           
-   glfwSetWindowCloseCallback(mGLFWWindow, OnClosed);
-   glfwSetKeyCallback(mGLFWWindow, OnKeyboardKey);
-   glfwSetWindowPosCallback(mGLFWWindow, OnMove);
-   glfwSetWindowSizeCallback(mGLFWWindow, OnResize);
-   glfwSetWindowFocusCallback(mGLFWWindow, OnFocus);
-   glfwSetWindowIconifyCallback(mGLFWWindow, OnMinimize);
-   glfwSetFramebufferSizeCallback(mGLFWWindow, OnResolutionChange);
-   glfwSetCursorEnterCallback(mGLFWWindow, OnHover);
-   glfwSetMouseButtonCallback(mGLFWWindow, OnMouseKey);
-   glfwSetScrollCallback(mGLFWWindow, OnMouseScroll);
-   glfwSetCharCallback(mGLFWWindow, OnTextInput);
-   glfwSetDropCallback(mGLFWWindow, OnFileDrop);
+   glfwSetWindowCloseCallback(*mGLFWWindow, OnClosed);
+   glfwSetKeyCallback(*mGLFWWindow, OnKeyboardKey);
+   glfwSetWindowPosCallback(*mGLFWWindow, OnMove);
+   glfwSetWindowSizeCallback(*mGLFWWindow, OnResize);
+   glfwSetWindowFocusCallback(*mGLFWWindow, OnFocus);
+   glfwSetWindowIconifyCallback(*mGLFWWindow, OnMinimize);
+   glfwSetFramebufferSizeCallback(*mGLFWWindow, OnResolutionChange);
+   glfwSetCursorEnterCallback(*mGLFWWindow, OnHover);
+   glfwSetMouseButtonCallback(*mGLFWWindow, OnMouseKey);
+   glfwSetScrollCallback(*mGLFWWindow, OnMouseScroll);
+   glfwSetCharCallback(*mGLFWWindow, OnTextInput);
+   glfwSetDropCallback(*mGLFWWindow, OnFileDrop);
 
    // Set the user pointer inside GLFWWindow to carry this interface    
-   glfwSetWindowUserPointer(mGLFWWindow, this);
+   glfwSetWindowUserPointer(*mGLFWWindow, this);
 
    // Raw mouse motion is closer to the actual motion of the mouse      
    // across a surface. It is not affected by the scaling and           
@@ -89,9 +89,9 @@ Window::Window(::Platform* producer, const Neat& descriptor)
    // better for controlling for example a 3D camera. Because of this,  
    // raw mouse motion is only provided when the cursor is disabled.    
    if (glfwRawMouseMotionSupported())
-      glfwSetInputMode(mGLFWWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+      glfwSetInputMode(*mGLFWWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-   mNativeWindowHandle = GetNativeWindowPointer(mGLFWWindow);
+   mNativeWindowHandle = GetNativeWindowPointer(*mGLFWWindow);
    //Logger::Verbose(Self(), "Window created");
 }
 
@@ -104,7 +104,7 @@ Window::Window(Window&& other) noexcept
    , mScrollChange {other.mScrollChange} {
    // Make sure the internal user pointer points to new place, too      
    if (mGLFWWindow)
-      glfwSetWindowUserPointer(mGLFWWindow, this);
+      glfwSetWindowUserPointer(*mGLFWWindow, this);
 }
 
 /// Move-copy window                                                          
@@ -114,14 +114,14 @@ Window& Window::operator = (Window&& other) noexcept {
    mGLFWWindow = Move(other.mGLFWWindow);
    mScrollChange = other.mScrollChange;
    if (mGLFWWindow)
-      glfwSetWindowUserPointer(mGLFWWindow, this);
+      glfwSetWindowUserPointer(*mGLFWWindow, this);
    return *this;
 }
 
 /// Window destruction                                                        
 Window::~Window() {
    if (mGLFWWindow) {
-      glfwDestroyWindow(mGLFWWindow);
+      glfwDestroyWindow(*mGLFWWindow);
       mGLFWWindow = nullptr;
       mNativeWindowHandle = nullptr;
    }
@@ -132,7 +132,7 @@ void Window::Refresh() {
    // Refresh unpinned properties from hierarchy                        
    SeekTrait<Traits::Size>(mSize);
    if (SeekTrait<Traits::Name>(mTitle))
-      glfwSetWindowTitle(mGLFWWindow, mTitle.Terminate().GetRaw());
+      glfwSetWindowTitle(*mGLFWWindow, (*mTitle).Terminate().GetRaw());
 }
 
 /// Associate some specific traits of a window                                
@@ -144,7 +144,7 @@ void Window::Associate(Verb& verb) {
       if (trait.TraitIs<Traits::Clipboard>()) {
          // Update system clipboard                                     
          mClipboard = trait.AsCast<Text>().Terminate();
-         glfwSetClipboardString(mGLFWWindow, mClipboard.GetRaw());
+         glfwSetClipboardString(*mGLFWWindow, mClipboard.GetRaw());
       }
    });
 }
@@ -156,16 +156,16 @@ void Window::Update() {
 
    // Expose the current clipboard - it might be used by other modules, 
    // like UI for example                                               
-   mClipboard = Text {glfwGetClipboardString(mGLFWWindow)};
+   mClipboard = Text {glfwGetClipboardString(*mGLFWWindow)};
 
    // Update gradients, even if window is not interactable              
    mMousePosition.Update();
    mMouseScroll.Update();
 
-   if (IsInteractable() && IsMouseOver()) {
+   if (IsInteractable() and IsMouseOver()) {
       // Handle mouse movement                                          
       double mouseX, mouseY;
-      glfwGetCursorPos(mGLFWWindow, &mouseX, &mouseY);
+      glfwGetCursorPos(*mGLFWWindow, &mouseX, &mouseY);
       mMousePosition.Current() = Vec2 {mouseX, mouseY};
 
       // Handle mouse scroll                                            
@@ -186,7 +186,7 @@ void Window::Update() {
          RunIn<Seek::HereAndBelow>(interact);
       }
 
-      if (md[0] != 0 || md[1] != 0) {
+      if (md[0] != 0 or md[1] != 0) {
          // Any mouse movement                                          
          Verbs::Interact interact {Events::MouseMove{md}};
          RunIn<Seek::HereAndBelow>(interact);
@@ -206,7 +206,7 @@ void Window::Update() {
          RunIn<Seek::HereAndBelow>(interact);
       }
 
-      if (ms[0] != 0 || ms[1] != 0) {
+      if (ms[0] != 0 or ms[1] != 0) {
          // Any mouse scrolling                                         
          Verbs::Interact interact {Events::MouseScroll{ms}};
          RunIn<Seek::HereAndBelow>(interact);
@@ -229,17 +229,17 @@ void Window::SetSize(int x, int y) {
 
 /// Check if window is closed                                                 
 bool Window::IsClosed() const {
-   return glfwGetWindowAttrib(mGLFWWindow, GLFW_VISIBLE) == GLFW_FALSE;
+   return glfwGetWindowAttrib(*mGLFWWindow, GLFW_VISIBLE) == GLFW_FALSE;
 }
 
 /// Check if window is in focus                                               
 bool Window::IsInFocus() const {
-   return glfwGetWindowAttrib(mGLFWWindow, GLFW_FOCUSED) == GLFW_TRUE;
+   return glfwGetWindowAttrib(*mGLFWWindow, GLFW_FOCUSED) == GLFW_TRUE;
 }
 
 /// Check if window is in focus                                               
 bool Window::IsMouseOver() const {
-   return glfwGetWindowAttrib(mGLFWWindow, GLFW_HOVERED) == GLFW_TRUE;
+   return glfwGetWindowAttrib(*mGLFWWindow, GLFW_HOVERED) == GLFW_TRUE;
 }
 
 /// Check if window interacts on inputs                                       
@@ -260,19 +260,19 @@ void Window::AccumulateScroll(const Vec2& offset) noexcept {
 /// Get the native window handle                                              
 ///   @return the native window handle as void*                               
 void* Window::GetNativeHandle() const noexcept {
-   return mNativeWindowHandle;
+   return *mNativeWindowHandle;
 }
 
 /// Get the size of the window                                                
 ///   @return the size of the window                                          
 Math::Scale2 Window::GetSize() const noexcept {
-   return mSize;
+   return *mSize;
 }
 
 /// Check if window is minimized                                              
 ///   @return true if window is minimized                                     
 bool Window::IsMinimized() const noexcept {
-   return glfwGetWindowAttrib(mGLFWWindow, GLFW_ICONIFIED) == GLFW_TRUE;
+   return glfwGetWindowAttrib(*mGLFWWindow, GLFW_ICONIFIED) == GLFW_TRUE;
 }
 
 

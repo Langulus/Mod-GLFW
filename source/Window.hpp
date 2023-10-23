@@ -26,9 +26,9 @@ private:
    // The window handle (GLFW specific)                                 
    Own<GLFWwindow*> mGLFWWindow;
    // Window title                                                      
-   Pinnable<Text> mTitle;
+   Pin<Text> mTitle;
    // Window size, in pixels                                            
-   Pinnable<Scale2> mSize;
+   Pin<Scale2> mSize;
    // Whether or not cursor is enabled                                  
    Own<Cursor*> mCursor;
    // Whether or not fullscreen is enabled on a specific monitor        
