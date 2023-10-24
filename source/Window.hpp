@@ -26,7 +26,7 @@ private:
    // The window handle (GLFW specific)                                 
    Own<GLFWwindow*> mGLFWWindow;
    // Window title                                                      
-   Pin<Text> mTitle;
+   Pin<Text> mTitle = "<untitled>";
    // Window size, in pixels                                            
    Pin<Scale2> mSize;
    // Whether or not cursor is enabled                                  
