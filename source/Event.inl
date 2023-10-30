@@ -98,13 +98,59 @@ namespace Langulus
       mState = 0;
    }
 
+
+   /// Default event construction creates a timestamp                         
+   LANGULUS(INLINED)
+   Event::Event()
+      : mTimestamp {SteadyClock::Now()} {}
+
+   /// Copy-construction creates a new timestamp                              
+   ///   @attention creates a new timestamp                                   
+   ///   @param other - event properties and payload to shallow-copy          
+   LANGULUS(INLINED)
+   Event::Event(const Event& other)
+      : mType {other.mType}
+      , mState {other.mState}
+      , mTimestamp {SteadyClock::Now()}
+      , mPayload {other.mPayload} {}
+
+   /// Move-construction                                                      
+   ///   @param other - event properties and payload to move                  
+   LANGULUS(INLINED)
+   Event::Event(Event&& other)
+      : mType {other.mType}
+      , mState {other.mState}
+      , mTimestamp {other.mTimestamp}
+      , mPayload {::std::move(other.mPayload)} {}
+
    /// Instantiate an event of a specific type, manually                      
    /// This constructor also generates the timestamp                          
    ///   @param a... - any number of arguments to carry in the event          
-   template<class... T>
-   LANGULUS(INLINED)
+   template<class... T> LANGULUS(INLINED)
    Event::Event(T&&...a) requires (::std::constructible_from<Any, T&&...>)
-      : mTimestamp {SteadyClock::Now()}
-      , mPayload {Forward<T>(a)...} {}
+      : Event {} {
+      if constexpr (CT::Semantic<T...>) {
+         using S = FirstOf<T...>;
+         using ST = TypeOf<S>;
+
+         if constexpr (CT::Event<ST> and sizeof...(T) == 1) {
+            // Semantic-construction from Event                         
+            ((mType = a->mType), ...);
+            ((mState = a->mState), ...);
+            if constexpr (S::Move)
+               ((mTimestamp = a->mTimestamp), ...);
+            ((mPayload = S::Nest(a->mPayload)), ...);
+         }
+         else {
+            // Semantic-construction from anything else - just forward  
+            // it to the payload                                        
+            mPayload = Any {Forward<T>(a)...};
+         }
+      }
+      else {
+         // Whatever arguments are there, forward them to payload       
+         mPayload = Any {Forward<T>(a)...};
+      }
+   }
 
 } // namespace Langulus

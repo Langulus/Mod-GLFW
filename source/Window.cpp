@@ -12,6 +12,7 @@
 #include <Flow/Verbs/Interpret.hpp>
 #include <GLFW/glfw3native.h>
 
+
 /// Get native window handle as type-erased void pointer                      
 ///   @param window - GLFW window interface to extract handle from            
 inline void* GetNativeWindowPointer(GLFWwindow* window) {
@@ -132,7 +133,7 @@ void Window::Refresh() {
    // Refresh unpinned properties from hierarchy                        
    SeekValue<Traits::Size>(mSize);
    if (SeekValue<Traits::Name>(mTitle))
-      glfwSetWindowTitle(*mGLFWWindow, (*mTitle).Terminate().GetRaw());
+      glfwSetWindowTitle(*mGLFWWindow, mTitle->Terminate().GetRaw());
 }
 
 /// Associate some specific traits of a window                                
@@ -729,7 +730,7 @@ void OnFocus(GLFWwindow* window, int focused) {
 ///   @param iconified - iconification state                                  
 void OnMinimize(GLFWwindow* window, int iconified) {
    auto canvas = GetUnit(window);
-   if (!canvas->IsInteractable())
+   if (not canvas->IsInteractable())
       return;
 
    if (iconified) {

@@ -76,12 +76,14 @@ namespace Langulus
       // Payload, for additional data                                   
       Any mPayload;
 
-      Event(const Event&) = default;
-      Event(Event&&) = default;
+      Event();
+      Event(const Event&);
+      Event(Event&&);
 
       template<class... T>
       Event(T&&...) requires (::std::constructible_from<Any, T&&...>);
    };
+
 
    namespace CT
    {
@@ -90,6 +92,9 @@ namespace Langulus
       template<class... T>
       concept Event = ((DerivedFrom<T, ::Langulus::Event> 
           and sizeof(T) == sizeof(::Langulus::Event)) and ...);
+
+      template<class... T>
+      concept NotEvent = not Event<T...>;
 
    } // namespace Langulus::CT
 
@@ -103,7 +108,7 @@ namespace Langulus
             LANGULUS(INFO) INFOSTRING; \
             LANGULUS_BASES(Event); \
             template<class... T_> \
-            EVENT(T_&&...a) requires (::std::constructible_from<Event, T_&&...>) \
+            EVENT(T_&&...a) requires (::std::constructible_from<Any, T_&&...>) \
                : Event {Forward<T_>(a)...} { \
                mType = MetaOf<EVENT>(); \
             } \
@@ -119,7 +124,7 @@ namespace Langulus
             LANGULUS(INFO) INFOSTRING; \
             LANGULUS_BASES(Event); \
             template<class... T_> \
-            EVENT(EventState state, T_&&...a) requires (::std::constructible_from<Event, T_&&...>) \
+            EVENT(EventState state, T_&&...a) requires (::std::constructible_from<Any, T_&&...>) \
                : Event {Forward<T_>(a)...} { \
                mType = MetaOf<EVENT>(); \
                mState = state; \
