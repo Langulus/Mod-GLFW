@@ -24,14 +24,12 @@ struct Platform final : A::PlatformModule {
 private:
    // List of created windows                                           
    TFactory<Window> mWindows;
-   // Number of opened windows                                          
-   Count mOpenedWindows {};
 
 public:
    Platform(Runtime*, const Neat&);
    ~Platform();
 
-   void Update(Time);
+   bool Update(Time);
    void Create(Verb&);
 };
 

@@ -48,19 +48,21 @@ Platform::~Platform() {
 
 /// Module update routine                                                     
 ///   @param dt - time from last update                                       
-void Platform::Update(Time) {
+bool Platform::Update(Time) {
    // Retrieve and dispatch OS events                                   
    glfwPollEvents();
 
    // Update all opened windows                                         
-   mOpenedWindows = 0;
+   auto openedWindows = 0;
    for (auto& window : mWindows) {
       if (window.IsClosed())
          continue;
 
       window.Update();
-      ++mOpenedWindows;
+      ++openedWindows;
    }
+
+   return openedWindows > 0;
 }
 
 /// Create/Destroy platform components, such as native windows                
