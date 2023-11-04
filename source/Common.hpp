@@ -8,11 +8,20 @@
 #pragma once
 #include <Entity/External.hpp>
 
-using namespace Langulus;
-using namespace Langulus::Flow;
-using namespace Langulus::Anyness;
-using namespace Langulus::Entity;
-using namespace Langulus::Math;
+
+namespace GLFW
+{
+   using namespace Langulus;
+   using namespace Langulus::Flow;
+   using namespace Langulus::Anyness;
+   using namespace Langulus::Entity;
+   using namespace Langulus::Math;
+
+   struct Platform;
+   struct Cursor;
+   struct Monitor;
+   struct Window;
+}
 
 /// Include GLFW                                                              
 #if LANGULUS_OS(WINDOWS)
@@ -25,5 +34,3 @@ using namespace Langulus::Math;
 
 #include <GLFW/glfw3.h>
 
-struct Platform;
-struct Window;

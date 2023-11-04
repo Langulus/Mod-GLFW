@@ -10,26 +10,30 @@
 #include <Flow/Verbs/Create.hpp>
 
 
-///                                                                           
-///   Native window/dialog management module                                  
-///                                                                           
-/// Manages and produces native windows, dialogs, file selection browsers,    
-/// color pickers, etc. Uses GLFW library as a backend.                       
-///                                                                           
-struct Platform final : A::PlatformModule {
-   LANGULUS(ABSTRACT) false;
-   LANGULUS_BASES(A::PlatformModule);
-   LANGULUS_VERBS(Verbs::Create);
+namespace GLFW
+{
 
-private:
-   // List of created windows                                           
-   TFactory<Window> mWindows;
+   ///                                                                        
+   ///   Native window/dialog management module                               
+   ///                                                                        
+   /// Manages and produces native windows, dialogs, file selection browsers, 
+   /// color pickers, etc. Uses GLFW library as a backend.                    
+   ///                                                                        
+   struct Platform final : A::PlatformModule {
+      LANGULUS(ABSTRACT) false;
+      LANGULUS_BASES(A::PlatformModule);
+      LANGULUS_VERBS(Verbs::Create);
 
-public:
-   Platform(Runtime*, const Neat&);
-   ~Platform();
+   private:
+      // List of created windows                                        
+      TFactory<GLFW::Window> mWindows;
 
-   bool Update(Time);
-   void Create(Verb&);
-};
+   public:
+      Platform(Runtime*, const Neat&);
+      ~Platform();
 
+      bool Update(Time);
+      void Create(Verb&);
+   };
+
+}

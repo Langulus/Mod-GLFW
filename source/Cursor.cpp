@@ -9,9 +9,14 @@
 #include "Platform.hpp"
 
 
-/// Cursor construction                                                       
-///   @param producer - cursor owner                                          
-///   @param descriptor - cursor descriptor                                   
-Cursor::Cursor(::Platform* producer, const Neat& descriptor)
-   : A::Platform {MetaOf<Cursor>(), descriptor}
-   , ProducedFrom {producer, descriptor} { }
+namespace GLFW
+{
+
+   /// Cursor construction                                                    
+   ///   @param producer - cursor owner                                       
+   ///   @param descriptor - cursor descriptor                                
+   Cursor::Cursor(GLFW::Platform* producer, const Neat& descriptor)
+      : A::Platform {MetaOf<Cursor>(), descriptor}
+      , ProducedFrom {producer, descriptor} { }
+
+}

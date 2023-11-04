@@ -9,16 +9,21 @@
 #include "Monitor.hpp"
 
 
-///                                                                           
-///   GLFW cursor                                                             
-///                                                                           
-struct Cursor final : A::Platform, ProducedFrom<::Platform> {
-   LANGULUS(ABSTRACT) false;
-   LANGULUS(PRODUCER) ::Platform;
-   LANGULUS_BASES(A::Platform);
+namespace GLFW
+{
 
-public:
-   Cursor(::Platform*, const Neat&);
+   ///                                                                        
+   ///   GLFW cursor                                                          
+   ///                                                                        
+   struct Cursor final : A::Platform, ProducedFrom<GLFW::Platform> {
+      LANGULUS(ABSTRACT) false;
+      LANGULUS(PRODUCER) GLFW::Platform;
+      LANGULUS_BASES(A::Platform);
 
-   void Refresh() final {}
-};
+   public:
+      Cursor(GLFW::Platform*, const Neat&);
+
+      void Refresh() final {}
+   };
+
+}

@@ -6,14 +6,10 @@ project(LangulusModGLFW
 )
 
 # Configure GLFW library, it will be statically built inside this module        
-set(BUILD_SHARED_LIBS OFF CACHE BOOL
-    "Build and link GLFW statically" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL
-    "Save some calories on building GLFW examples" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL
-    "Save some calories on building GLFW tests" FORCE)
-set(GLFW_BUILD_DOCS OFF CACHE BOOL
-    "Save some calories on building GLFW documentation" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
 # Configure GLFW library                                                        
