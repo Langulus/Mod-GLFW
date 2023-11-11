@@ -19,13 +19,14 @@ fetch_external_module(
     GIT_TAG         4a33051 # 3.3-stable
 )
 
-# Build the module                                                              
-add_library(LangulusModGLFW SHARED 
-    source/Platform.cpp
-    source/Window.cpp
-    source/Monitor.cpp
-    source/Cursor.cpp
+file(GLOB_RECURSE
+	LANGULUS_MOD_GLFW_SOURCES 
+	LIST_DIRECTORIES FALSE CONFIGURE_DEPENDS
+	source/*.cpp source/*.hpp
 )
+
+# Build the module                                                              
+add_library(LangulusModGLFW SHARED ${LANGULUS_MOD_GLFW_SOURCES})
 
 target_link_libraries(LangulusModGLFW
     PRIVATE     Langulus

@@ -31,7 +31,7 @@ SCENARIO("Window creation", "[window]") {
 
       #if LANGULUS_FEATURE(MANAGED_REFLECTION)
          WHEN("The window is created via token") {
-            auto window = root.CreateUnitToken("Window");
+            auto window = root.CreateUnitToken("A::Window");
 
             THEN("Various traits change") {
                root.DumpHierarchy();
