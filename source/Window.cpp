@@ -19,13 +19,13 @@ namespace GLFW
    /// Get native window handle as type-erased void pointer                   
    ///   @param window - GLFW window interface to extract handle from         
    inline void* GetNativeWindowPointer(GLFWwindow* window) {
-   #if LANGULUS_OS(WINDOWS)
-      return glfwGetWin32Window(window);
-   #elif LANGULUS_OS(LINUX)
-      return reinterpret_cast<void*>(glfwGetX11Window(window));
-   #else
-   #error Not implemented for your platform
-   #endif
+      #if LANGULUS_OS(WINDOWS)
+         return glfwGetWin32Window(window);
+      #elif LANGULUS_OS(LINUX)
+         return reinterpret_cast<void*>(glfwGetX11Window(window));
+      #else
+         #error Not implemented for your platform
+      #endif
    }
 
    ///                                                                        
@@ -70,21 +70,21 @@ namespace GLFW
          LANGULUS_THROW(Construct, "Failed to initialize window");
 
       // Set the callbacks and user pointers for the canvas pipe        
-      glfwSetWindowCloseCallback(*mGLFWWindow, OnClosed);
-      glfwSetKeyCallback(*mGLFWWindow, OnKeyboardKey);
-      glfwSetWindowPosCallback(*mGLFWWindow, OnMove);
-      glfwSetWindowSizeCallback(*mGLFWWindow, OnResize);
-      glfwSetWindowFocusCallback(*mGLFWWindow, OnFocus);
-      glfwSetWindowIconifyCallback(*mGLFWWindow, OnMinimize);
-      glfwSetFramebufferSizeCallback(*mGLFWWindow, OnResolutionChange);
-      glfwSetCursorEnterCallback(*mGLFWWindow, OnHover);
-      glfwSetMouseButtonCallback(*mGLFWWindow, OnMouseKey);
-      glfwSetScrollCallback(*mGLFWWindow, OnMouseScroll);
-      glfwSetCharCallback(*mGLFWWindow, OnTextInput);
-      glfwSetDropCallback(*mGLFWWindow, OnFileDrop);
+      glfwSetWindowCloseCallback(mGLFWWindow, OnClosed);
+      glfwSetKeyCallback(mGLFWWindow, OnKeyboardKey);
+      glfwSetWindowPosCallback(mGLFWWindow, OnMove);
+      glfwSetWindowSizeCallback(mGLFWWindow, OnResize);
+      glfwSetWindowFocusCallback(mGLFWWindow, OnFocus);
+      glfwSetWindowIconifyCallback(mGLFWWindow, OnMinimize);
+      glfwSetFramebufferSizeCallback(mGLFWWindow, OnResolutionChange);
+      glfwSetCursorEnterCallback(mGLFWWindow, OnHover);
+      glfwSetMouseButtonCallback(mGLFWWindow, OnMouseKey);
+      glfwSetScrollCallback(mGLFWWindow, OnMouseScroll);
+      glfwSetCharCallback(mGLFWWindow, OnTextInput);
+      glfwSetDropCallback(mGLFWWindow, OnFileDrop);
 
       // Set the user pointer inside GLFWWindow to carry this interface 
-      glfwSetWindowUserPointer(*mGLFWWindow, this);
+      glfwSetWindowUserPointer(mGLFWWindow, this);
 
       // Raw mouse motion is closer to the actual motion of the mouse   
       // across a surface. It is not affected by the scaling and        
@@ -94,9 +94,9 @@ namespace GLFW
       // this, raw mouse motion is only provided when the cursor is     
       // disabled.                                                      
       if (glfwRawMouseMotionSupported())
-         glfwSetInputMode(*mGLFWWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+         glfwSetInputMode(mGLFWWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-      mNativeWindowHandle = GetNativeWindowPointer(*mGLFWWindow);
+      mNativeWindowHandle = GetNativeWindowPointer(mGLFWWindow);
       //Logger::Verbose(Self(), "Window created");
    }
 
@@ -109,7 +109,7 @@ namespace GLFW
       , mScrollChange {other.mScrollChange} {
       // Make sure the internal user pointer points to new place, too   
       if (mGLFWWindow)
-         glfwSetWindowUserPointer(*mGLFWWindow, this);
+         glfwSetWindowUserPointer(mGLFWWindow, this);
    }
 
    /// Move-copy window                                                       
@@ -119,14 +119,14 @@ namespace GLFW
       mGLFWWindow = Move(other.mGLFWWindow);
       mScrollChange = other.mScrollChange;
       if (mGLFWWindow)
-         glfwSetWindowUserPointer(*mGLFWWindow, this);
+         glfwSetWindowUserPointer(mGLFWWindow, this);
       return *this;
    }
 
    /// Window destruction                                                     
    Window::~Window() {
       if (mGLFWWindow) {
-         glfwDestroyWindow(*mGLFWWindow);
+         glfwDestroyWindow(mGLFWWindow);
          mGLFWWindow = nullptr;
          mNativeWindowHandle = nullptr;
       }
@@ -137,7 +137,7 @@ namespace GLFW
       // Refresh unpinned properties from hierarchy                     
       SeekValue<Traits::Size>(mSize);
       if (SeekValue<Traits::Name>(mTitle))
-         glfwSetWindowTitle(*mGLFWWindow, mTitle->Terminate().GetRaw());
+         glfwSetWindowTitle(mGLFWWindow, mTitle->Terminate().GetRaw());
    }
 
    /// Associate some specific traits of a window                             
@@ -149,7 +149,7 @@ namespace GLFW
          if (trait.TraitIs<Traits::Clipboard>()) {
             // Update system clipboard                                  
             mClipboard = trait.AsCast<Text>().Terminate();
-            glfwSetClipboardString(*mGLFWWindow, mClipboard.GetRaw());
+            glfwSetClipboardString(mGLFWWindow, mClipboard.GetRaw());
          }
          });
    }
@@ -161,7 +161,7 @@ namespace GLFW
 
       // Expose the current clipboard - it might be used by other       
       // modules, like UI for example                                   
-      mClipboard = Text {glfwGetClipboardString(*mGLFWWindow)};
+      mClipboard = Text {glfwGetClipboardString(mGLFWWindow)};
 
       // Update gradients, even if window is not interactable           
       mMousePosition.Update();
@@ -170,7 +170,7 @@ namespace GLFW
       if (IsInteractable() and IsMouseOver()) {
          // Handle mouse movement                                       
          double mouseX, mouseY;
-         glfwGetCursorPos(*mGLFWWindow, &mouseX, &mouseY);
+         glfwGetCursorPos(mGLFWWindow, &mouseX, &mouseY);
          mMousePosition.Current() = Vec2 {mouseX, mouseY};
 
          // Handle mouse scroll                                         
@@ -234,17 +234,17 @@ namespace GLFW
 
    /// Check if window is closed                                              
    bool Window::IsClosed() const {
-      return glfwGetWindowAttrib(*mGLFWWindow, GLFW_VISIBLE) == GLFW_FALSE;
+      return glfwGetWindowAttrib(mGLFWWindow, GLFW_VISIBLE) == GLFW_FALSE;
    }
 
    /// Check if window is in focus                                            
    bool Window::IsInFocus() const {
-      return glfwGetWindowAttrib(*mGLFWWindow, GLFW_FOCUSED) == GLFW_TRUE;
+      return glfwGetWindowAttrib(mGLFWWindow, GLFW_FOCUSED) == GLFW_TRUE;
    }
 
    /// Check if window is in focus                                            
    bool Window::IsMouseOver() const {
-      return glfwGetWindowAttrib(*mGLFWWindow, GLFW_HOVERED) == GLFW_TRUE;
+      return glfwGetWindowAttrib(mGLFWWindow, GLFW_HOVERED) == GLFW_TRUE;
    }
 
    /// Check if window interacts on inputs                                    
@@ -265,7 +265,7 @@ namespace GLFW
    /// Get the native window handle                                           
    ///   @return the native window handle as void*                            
    void* Window::GetNativeHandle() const noexcept {
-      return *mNativeWindowHandle;
+      return mNativeWindowHandle;
    }
 
    /// Get the size of the window                                             
@@ -277,7 +277,7 @@ namespace GLFW
    /// Check if window is minimized                                           
    ///   @return true if window is minimized                                  
    bool Window::IsMinimized() const noexcept {
-      return glfwGetWindowAttrib(*mGLFWWindow, GLFW_ICONIFIED) == GLFW_TRUE;
+      return glfwGetWindowAttrib(mGLFWWindow, GLFW_ICONIFIED) == GLFW_TRUE;
    }
 
 
