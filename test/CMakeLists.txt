@@ -16,9 +16,3 @@ add_test(
 	NAME		LangulusModGLFWTest
 	COMMAND		LangulusModGLFWTest
 )
-
-langulus_copy_dlls(LangulusModGLFWTest ON LangulusModGLFWTest)
-langulus_copy_dlls_advanced(LangulusModGLFWTest
-	TO			LangulusModGLFWTest
-	FROM		LangulusModGLFW
-)
