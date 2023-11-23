@@ -15,4 +15,5 @@ target_link_libraries(LangulusModGLFWTest
 add_test(
 	NAME		LangulusModGLFWTest
 	COMMAND		LangulusModGLFWTest
+	WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 )
