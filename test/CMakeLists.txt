@@ -12,6 +12,10 @@ target_link_libraries(LangulusModGLFWTest
 				glfw
 )
 
+add_dependencies(LangulusModGLFWTest
+	LangulusModGLFW
+)
+
 add_test(
 	NAME		LangulusModGLFWTest
 	COMMAND		LangulusModGLFWTest
