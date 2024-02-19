@@ -30,37 +30,37 @@ namespace GLFW
       // The window handle (GLFW specific)                              
       Own<GLFWwindow*> mGLFWWindow;
       // Window title                                                   
-      Pin<Text> mTitle = "<untitled>";
+      Traits::Name::Tag<Pin<Text>> mTitle = "<untitled>";
       // Window size, in pixels                                         
-      Pin<Scale2> mSize;
+      Traits::Size::Tag<Pin<Scale2>> mSize;
       // Whether or not cursor is enabled                               
-      Own<Cursor*> mCursor;
+      Traits::Cursor::Tag<Own<Cursor*>> mCursor;
       // Whether or not fullscreen is enabled on a specific monitor     
-      Own<Monitor*> mMonitor;
+      Traits::Monitor::Tag<Own<Monitor*>> mMonitor;
       // Native window handle, used by other modules, like Vulkan       
-      Own<void*> mNativeWindowHandle;
+      Traits::NativeWindowHandle::Tag<Own<void*>> mNativeWindowHandle;
 
       // Relative scrolling accumulator                                 
       Vec2 mScrollChange;
       // Mouse position, relative to window                             
-      Grad2v2 mMousePosition;
+      Traits::MousePosition::Tag<Grad2v2> mMousePosition;
       // Mouse scroll                                                   
-      Grad2v2 mMouseScroll;
+      Traits::MouseScroll::Tag<Grad2v2> mMouseScroll;
       // Text input accumulator                                         
       Text mTextInput;
       // Clipboard                                                      
-      Text mClipboard;
+      Traits::Clipboard::Tag<Text> mClipboard;
 
-      LANGULUS_PROPERTIES_START(Window)
-         LANGULUS_PROPERTY_TRAIT(mSize, Size),
-         LANGULUS_PROPERTY_TRAIT(mMousePosition, MousePosition),
-         LANGULUS_PROPERTY_TRAIT(mMouseScroll, MouseScroll),
-         LANGULUS_PROPERTY_TRAIT(mTitle, Name),
-         LANGULUS_PROPERTY_TRAIT(mCursor, Cursor),
-         LANGULUS_PROPERTY_TRAIT(mMonitor, Monitor),
-         LANGULUS_PROPERTY_TRAIT(mNativeWindowHandle, NativeWindowHandle),
-         LANGULUS_PROPERTY_TRAIT(mClipboard, Clipboard)
-         LANGULUS_PROPERTIES_END();
+      LANGULUS_MEMBERS(
+         &Window::mSize,
+         &Window::mMousePosition,
+         &Window::mMouseScroll,
+         &Window::mTitle,
+         &Window::mCursor,
+         &Window::mMonitor,
+         &Window::mNativeWindowHandle,
+         &Window::mClipboard
+      );
 
    public:
       Window(GLFW::Platform*, const Neat&);

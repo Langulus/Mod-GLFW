@@ -52,8 +52,8 @@ namespace GLFW
       : A::Window {MetaOf<GLFW::Window>(), descriptor}
       , ProducedFrom {producer, descriptor} {
       // Extract properties from descriptor and hierarchy               
-      SeekValueAux<Traits::Size>(descriptor, mSize);
-      SeekValueAux<Traits::Name>(descriptor, mTitle);
+      SeekValueAux(descriptor, mSize);
+      SeekValueAux(descriptor, mTitle);
 
       // Make it visible                                                
       glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
@@ -135,8 +135,8 @@ namespace GLFW
    /// Refresh the window component on environment change                     
    void Window::Refresh() {
       // Refresh unpinned properties from hierarchy                     
-      SeekValue<Traits::Size>(mSize);
-      if (SeekValue<Traits::Name>(mTitle))
+      SeekValue(mSize);
+      if (SeekValue(mTitle))
          glfwSetWindowTitle(mGLFWWindow, mTitle->Terminate().GetRaw());
    }
 
@@ -146,12 +146,12 @@ namespace GLFW
    ///   @param verb - association verb                                       
    void Window::Associate(Verb& verb) {
       verb.ForEachDeep([&](const Trait& trait) {
-         if (trait.TraitIs<Traits::Clipboard>()) {
+         if (trait.IsTrait<Traits::Clipboard>()) {
             // Update system clipboard                                  
             mClipboard = trait.AsCast<Text>().Terminate();
-            glfwSetClipboardString(mGLFWWindow, mClipboard.GetRaw());
+            glfwSetClipboardString(mGLFWWindow, mClipboard->GetRaw());
          }
-         });
+      });
    }
 
    /// Update the window                                                      
@@ -164,21 +164,21 @@ namespace GLFW
       mClipboard = Text {glfwGetClipboardString(mGLFWWindow)};
 
       // Update gradients, even if window is not interactable           
-      mMousePosition.Update();
-      mMouseScroll.Update();
+      mMousePosition->Update();
+      mMouseScroll->Update();
 
       if (IsInteractable() and IsMouseOver()) {
          // Handle mouse movement                                       
          double mouseX, mouseY;
          glfwGetCursorPos(mGLFWWindow, &mouseX, &mouseY);
-         mMousePosition.Current() = Vec2 {mouseX, mouseY};
+         mMousePosition->Current() = Vec2 {mouseX, mouseY};
 
          // Handle mouse scroll                                         
-         mMouseScroll.Current() += mScrollChange;
+         mMouseScroll->Current() += mScrollChange;
          mScrollChange = {};
 
          // Check if mouse position has changed, and add specific events
-         auto md = mMousePosition.Delta();
+         auto md = mMousePosition->Delta();
          if (md[0] != 0) {
             // Horizontal mouse movement                                
             Verbs::Interact interact {Events::MouseMoveHorizontal{md[0]}};
@@ -198,7 +198,7 @@ namespace GLFW
          }
 
          // Check if mouse scroll has changed, and add specific events  
-         auto ms = mMouseScroll.Delta();
+         auto ms = mMouseScroll->Delta();
          if (ms[0] != 0) {
             // Horizontal scrolling                                     
             Verbs::Interact interact {Events::MouseScrollHorizontal{ms[0]}};
@@ -265,7 +265,7 @@ namespace GLFW
    /// Get the native window handle                                           
    ///   @return the native window handle as void*                            
    void* Window::GetNativeHandle() const noexcept {
-      return mNativeWindowHandle;
+      return *mNativeWindowHandle;
    }
 
    /// Get the size of the window                                             
