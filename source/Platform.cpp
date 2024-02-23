@@ -75,4 +75,4 @@ namespace GLFW
       mWindows.Create(verb);
    }
 
-}
+} // namespace GLFW
