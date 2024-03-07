@@ -66,8 +66,7 @@ namespace GLFW
          nullptr, nullptr
       );
 
-      if (not mGLFWWindow)
-         LANGULUS_THROW(Construct, "Failed to initialize window");
+      LANGULUS_ASSERT(mGLFWWindow, Construct, "Failed to initialize window");
 
       // Set the callbacks and user pointers for the canvas pipe        
       glfwSetWindowCloseCallback(mGLFWWindow, OnClosed);
@@ -97,7 +96,7 @@ namespace GLFW
          glfwSetInputMode(mGLFWWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
       mNativeWindowHandle = GetNativeWindowPointer(mGLFWWindow);
-      //Logger::Verbose(Self(), "Window created");
+      Couple(descriptor);
    }
 
    /// Move-construct window                                                  

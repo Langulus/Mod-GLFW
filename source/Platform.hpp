@@ -36,4 +36,4 @@ namespace GLFW
       void Create(Verb&);
    };
 
-}
+} // namespace GLFW

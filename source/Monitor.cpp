@@ -17,6 +17,8 @@ namespace GLFW
    ///   @param descriptor - monitor descriptor                               
    Monitor::Monitor(GLFW::Platform* producer, const Neat& descriptor)
       : A::Platform {MetaOf<GLFW::Monitor>(), descriptor}
-      , ProducedFrom {producer, descriptor} { }
+      , ProducedFrom {producer, descriptor} {
+      Couple(descriptor);
+   }
 
 }

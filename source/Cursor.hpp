@@ -26,4 +26,4 @@ namespace GLFW
       void Refresh() final {}
    };
 
-}
+} // namespace GLFW

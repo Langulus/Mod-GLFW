@@ -87,4 +87,4 @@ namespace GLFW
       void AccumulateScroll(const Vec2&) noexcept;
    };
 
-}
+} // namespace GLFW

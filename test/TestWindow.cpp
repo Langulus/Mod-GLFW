@@ -33,6 +33,7 @@ SCENARIO("Window creation", "[window]") {
             REQUIRE(window.GetCount() == 1);
             REQUIRE(window.IsSparse());
             REQUIRE(window.CastsTo<A::Window>());
+            REQUIRE(root.GetUnits().GetCount() == 1);
          }
 
       #if LANGULUS_FEATURE(MANAGED_REFLECTION)
@@ -43,6 +44,7 @@ SCENARIO("Window creation", "[window]") {
             REQUIRE(window.GetCount() == 1);
             REQUIRE(window.IsSparse());
             REQUIRE(window.CastsTo<A::Window>());
+            REQUIRE(root.GetUnits().GetCount() == 1);
          }
       #endif
 
