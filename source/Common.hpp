@@ -19,6 +19,9 @@ namespace GLFW
    struct Window;
 }
 
+#define VERBOSE_GLFW(...)     Logger::Verbose(Self(), __VA_ARGS__)
+#define VERBOSE_GLFW_TAB(...) const auto tab = Logger::Verbose(Self(), __VA_ARGS__, Logger::Tabs {})
+
 /// Include GLFW                                                              
 #if LANGULUS_OS(WINDOWS)
    #define GLFW_EXPOSE_NATIVE_WIN32

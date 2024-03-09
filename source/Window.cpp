@@ -51,6 +51,8 @@ namespace GLFW
    Window::Window(GLFW::Platform* producer, const Neat& descriptor)
       : A::Window {MetaOf<GLFW::Window>(), descriptor}
       , ProducedFrom {producer, descriptor} {
+      VERBOSE_GLFW("Initializing...");
+
       // Extract properties from descriptor and hierarchy               
       SeekValueAux(descriptor, mSize);
       SeekValueAux(descriptor, mTitle);
@@ -97,6 +99,8 @@ namespace GLFW
 
       mNativeWindowHandle = GetNativeWindowPointer(mGLFWWindow);
       Couple(descriptor);
+
+      VERBOSE_GLFW("Initialized...");
    }
 
    /// Move-construct window                                                  
