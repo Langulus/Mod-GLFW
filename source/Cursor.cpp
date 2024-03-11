@@ -16,9 +16,11 @@ namespace GLFW
    ///   @param producer - cursor owner                                       
    ///   @param descriptor - cursor descriptor                                
    Cursor::Cursor(GLFW::Platform* producer, const Neat& descriptor)
-      : A::Platform {MetaOf<Cursor>(), descriptor}
+      : A::Platform {MetaOf<Cursor>()}
       , ProducedFrom {producer, descriptor} {
+      VERBOSE_GLFW("Initializing...");
       Couple(descriptor);
+      VERBOSE_GLFW("Initialized");
    }
 
-}
+} // namespace GLFW

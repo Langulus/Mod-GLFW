@@ -49,7 +49,7 @@ namespace GLFW
    ///   @param producer - window owner                                       
    ///   @param descriptor - window descriptor                                
    Window::Window(GLFW::Platform* producer, const Neat& descriptor)
-      : A::Window {MetaOf<GLFW::Window>(), descriptor}
+      : A::Window {MetaOf<GLFW::Window>()}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");
 
@@ -100,7 +100,7 @@ namespace GLFW
       mNativeWindowHandle = GetNativeWindowPointer(mGLFWWindow);
       Couple(descriptor);
 
-      VERBOSE_GLFW("Initialized...");
+      VERBOSE_GLFW("Initialized");
    }
 
    /// Move-construct window                                                  
@@ -881,4 +881,4 @@ namespace GLFW
       canvas->RunIn<Seek::HereAndBelow>(interact);
    }
 
-}
+} // namespace GLFW

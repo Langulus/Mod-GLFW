@@ -30,7 +30,7 @@ namespace GLFW
    Platform::Platform(Runtime* runtime, const Neat&)
       : A::PlatformModule {MetaOf<GLFW::Platform>(), runtime}
       , mWindows {this} {
-      Logger::Verbose(Self(), "Initializing...");
+      VERBOSE_GLFW("Initializing...");
 
       // Bind our logger first                                          
       glfwSetErrorCallback(ErrorRelay);
@@ -39,7 +39,7 @@ namespace GLFW
       if (not glfwInit())
          LANGULUS_THROW(Construct, "Error initializing GLFW");
 
-      Logger::Verbose(Self(), "Initialized");
+      VERBOSE_GLFW("Initialized");
    }
 
    /// Module destruction                                                     
