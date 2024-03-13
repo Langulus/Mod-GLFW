@@ -8,10 +8,14 @@
 #pragma once
 #include "Cursor.hpp"
 #include <Math/Gradient.hpp>
+#include <Math/Vector.hpp>
 
 
 namespace GLFW
 {
+
+   using Vec2 = Math::Vec2;
+   using Grad2v2 = Math::Grad2v2;
 
    ///                                                                        
    ///   GLFW window                                                          
@@ -39,6 +43,7 @@ namespace GLFW
       Traits::Monitor::Tag<Own<Monitor*>> mMonitor;
       // Native window handle, used by other modules, like Vulkan       
       Traits::NativeWindowHandle::Tag<Own<void*>> mNativeWindowHandle;
+
 
       // Relative scrolling accumulator                                 
       Vec2 mScrollChange;
@@ -78,7 +83,7 @@ namespace GLFW
       NOD() bool IsInteractable() const;
 
       NOD() void* GetNativeHandle() const noexcept;
-      NOD() Math::Scale2 GetSize() const noexcept;
+      NOD() Scale2 GetSize() const noexcept;
       NOD() bool IsMinimized() const noexcept;
 
       void Update();
