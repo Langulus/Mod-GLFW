@@ -9,6 +9,7 @@
 #include "Cursor.hpp"
 #include <Math/Gradient.hpp>
 #include <Math/Vector.hpp>
+#include <Entity/Pin.hpp>
 
 
 namespace GLFW

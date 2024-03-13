@@ -6,6 +6,7 @@
 /// See LICENSE file, or https://www.gnu.org/licenses                         
 ///                                                                           
 #include "Main.hpp"
+#include <Langulus/Platform.hpp>
 #include <catch2/catch.hpp>
 
 
