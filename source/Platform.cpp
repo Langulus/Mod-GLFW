@@ -1,6 +1,7 @@
 ///                                                                           
 /// Langulus::Module::GLFW                                                    
-/// Copyright(C) 2015 Dimo Markov <langulusteam@gmail.com>                    
+/// Copyright (c) 2015 Dimo Markov <team@langulus.com>                        
+/// Part of the Langulus framework, see https://langulus.com                  
 ///                                                                           
 /// Distributed under GNU General Public License v3+                          
 /// See LICENSE file, or https://www.gnu.org/licenses                         
@@ -28,7 +29,8 @@ namespace GLFW
    ///   @param runtime - the runtime that owns the module                    
    ///   @param descriptor - instructions for configuring the module          
    Platform::Platform(Runtime* runtime, const Neat&)
-      : A::PlatformModule {MetaOf<GLFW::Platform>(), runtime}
+      : Resolvable {MetaOf<GLFW::Platform>()}
+      , Module {runtime}
       , mWindows {this} {
       VERBOSE_GLFW("Initializing...");
 

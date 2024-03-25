@@ -1,6 +1,7 @@
 ///                                                                           
 /// Langulus::Module::GLFW                                                    
-/// Copyright(C) 2015 Dimo Markov <langulusteam@gmail.com>                    
+/// Copyright (c) 2015 Dimo Markov <team@langulus.com>                        
+/// Part of the Langulus framework, see https://langulus.com                  
 ///                                                                           
 /// Distributed under GNU General Public License v3+                          
 /// See LICENSE file, or https://www.gnu.org/licenses                         
@@ -49,7 +50,7 @@ namespace GLFW
    ///   @param producer - window owner                                       
    ///   @param descriptor - window descriptor                                
    Window::Window(GLFW::Platform* producer, const Neat& descriptor)
-      : A::Window {MetaOf<GLFW::Window>()}
+      : Resolvable {MetaOf<GLFW::Window>()}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");
 
@@ -105,7 +106,7 @@ namespace GLFW
 
    /// Move-construct window                                                  
    ///   @param other - the window to move                                    
-   Window::Window(Window&& other) noexcept
+   /*Window::Window(Window&& other) noexcept
       : A::Window {Forward<A::Window>(other)}
       , ProducedFrom {Forward<ProducedFrom>(other)}
       , mGLFWWindow {Move(other.mGLFWWindow)}
@@ -113,18 +114,18 @@ namespace GLFW
       // Make sure the internal user pointer points to new place, too   
       if (mGLFWWindow)
          glfwSetWindowUserPointer(mGLFWWindow, this);
-   }
+   }*/
 
    /// Move-copy window                                                       
    ///   @param other - the window to move                                    
-   Window& Window::operator = (Window&& other) noexcept {
+   /*Window& Window::operator = (Window&& other) noexcept {
       A::Window::operator = (Forward<A::Window>(other));
       mGLFWWindow = Move(other.mGLFWWindow);
       mScrollChange = other.mScrollChange;
       if (mGLFWWindow)
          glfwSetWindowUserPointer(mGLFWWindow, this);
       return *this;
-   }
+   }*/
 
    /// Window destruction                                                     
    Window::~Window() {

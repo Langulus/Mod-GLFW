@@ -1,6 +1,7 @@
 ///                                                                           
 /// Langulus::Module::GLFW                                                    
-/// Copyright(C) 2015 Dimo Markov <langulusteam@gmail.com>                    
+/// Copyright (c) 2015 Dimo Markov <team@langulus.com>                        
+/// Part of the Langulus framework, see https://langulus.com                  
 ///                                                                           
 /// Distributed under GNU General Public License v3+                          
 /// See LICENSE file, or https://www.gnu.org/licenses                         
@@ -16,7 +17,7 @@ namespace GLFW
    ///   @param producer - cursor owner                                       
    ///   @param descriptor - cursor descriptor                                
    Cursor::Cursor(GLFW::Platform* producer, const Neat& descriptor)
-      : A::Platform {MetaOf<Cursor>()}
+      : Resolvable {MetaOf<Cursor>()}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");
       Couple(descriptor);
