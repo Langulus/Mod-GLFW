@@ -19,6 +19,7 @@ namespace GLFW
    using Vec2 = Math::Vec2;
    using Grad2v2 = Math::Grad2v2;
 
+
    ///                                                                        
    ///   GLFW window                                                          
    ///                                                                        
