@@ -29,7 +29,7 @@ namespace GLFW
    ///   @param runtime - the runtime that owns the module                    
    ///   @param descriptor - instructions for configuring the module          
    Platform::Platform(Runtime* runtime, const Neat&)
-      : Resolvable {MetaOf<GLFW::Platform>()}
+      : Resolvable {this}
       , Module {runtime}
       , mWindows {this} {
       VERBOSE_GLFW("Initializing...");
