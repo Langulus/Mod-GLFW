@@ -72,10 +72,7 @@ namespace GLFW
 
    public:
       Window(GLFW::Platform*, const Neat&);
-      //Window(Window&&) noexcept;
       ~Window();
-
-      //Window& operator = (Window&&) noexcept;
 
       void Associate(Verb&);
       void Refresh();
