@@ -291,7 +291,7 @@ namespace GLFW
 
    /// Get the Langulus window associated with a GLFW window                  
    LANGULUS(INLINED)
-      auto GetUnit(GLFWwindow* window) {
+   auto GetUnit(GLFWwindow* window) {
       return static_cast<Window*>(glfwGetWindowUserPointer(window));
    }
 
