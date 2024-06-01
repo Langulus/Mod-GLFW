@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.28)
 project(LangulusModGLFW
     VERSION         1.0.0
     DESCRIPTION     "Langulus plug-in module for managing native windows using the GLFW library"
