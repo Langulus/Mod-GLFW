@@ -183,19 +183,7 @@ namespace GLFW
 
          // Check if mouse position has changed, and add specific events
          auto md = mMousePosition->Delta();
-         if (md[0] != 0) {
-            // Horizontal mouse movement                                
-            Verbs::Interact interact {Events::MouseMoveHorizontal{md[0]}};
-            RunIn<Seek::HereAndBelow>(interact);
-         }
-
-         if (md[1] != 0) {
-            // Vertical mouse movement                                  
-            Verbs::Interact interact {Events::MouseMoveVertical{md[1]}};
-            RunIn<Seek::HereAndBelow>(interact);
-         }
-
-         if (md[0] != 0 or md[1] != 0) {
+         if (md) {
             // Any mouse movement                                       
             Verbs::Interact interact {Events::MouseMove{md}};
             RunIn<Seek::HereAndBelow>(interact);
@@ -203,19 +191,7 @@ namespace GLFW
 
          // Check if mouse scroll has changed, and add specific events  
          auto ms = mMouseScroll->Delta();
-         if (ms[0] != 0) {
-            // Horizontal scrolling                                     
-            Verbs::Interact interact {Events::MouseScrollHorizontal{ms[0]}};
-            RunIn<Seek::HereAndBelow>(interact);
-         }
-
-         if (ms[1] != 0) {
-            // Vertical scrolling                                       
-            Verbs::Interact interact {Events::MouseScrollVertical{ms[1]}};
-            RunIn<Seek::HereAndBelow>(interact);
-         }
-
-         if (ms[0] != 0 or ms[1] != 0) {
+         if (ms) {
             // Any mouse scrolling                                      
             Verbs::Interact interact {Events::MouseScroll{ms}};
             RunIn<Seek::HereAndBelow>(interact);
