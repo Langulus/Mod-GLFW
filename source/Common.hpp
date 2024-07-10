@@ -22,7 +22,7 @@ namespace GLFW
 
 #if 0
    #define VERBOSE_GLFW(...)     Logger::Verbose(Self(), __VA_ARGS__)
-   #define VERBOSE_GLFW_TAB(...) const auto tab = Logger::Verbose(Self(), __VA_ARGS__, Logger::Tabs {})
+   #define VERBOSE_GLFW_TAB(...) const auto tab = Logger::VerboseTab(Self(), __VA_ARGS__)
 #else
    #define VERBOSE_GLFW(...)     LANGULUS(NOOP)
    #define VERBOSE_GLFW_TAB(...) LANGULUS(NOOP)
