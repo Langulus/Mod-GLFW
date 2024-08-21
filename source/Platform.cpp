@@ -30,8 +30,8 @@ namespace GLFW
    ///   @param descriptor - instructions for configuring the module          
    Platform::Platform(Runtime* runtime, const Neat&)
       : Resolvable {this}
-      , Module {runtime}
-      , mWindows {this} {
+      , Module     {runtime}
+      , mWindows   {this} {
       VERBOSE_GLFW("Initializing...");
 
       // Bind our logger first                                          
