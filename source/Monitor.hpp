@@ -22,7 +22,7 @@ namespace GLFW
       LANGULUS_BASES(A::Platform);
 
    public:
-      Monitor(GLFW::Platform*, const Neat&);
+      Monitor(GLFW::Platform*, Describe);
 
       void Refresh() final {}
    };

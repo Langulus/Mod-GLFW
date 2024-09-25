@@ -70,7 +70,7 @@ namespace GLFW
       );
 
    public:
-      Window(GLFW::Platform*, const Neat&);
+      Window(GLFW::Platform*, Describe);
       ~Window();
 
       void Associate(Verb&);

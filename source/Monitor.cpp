@@ -15,7 +15,7 @@ namespace GLFW
    /// Monitor construction                                                   
    ///   @param producer - monitor owner                                      
    ///   @param descriptor - monitor descriptor                               
-   Monitor::Monitor(GLFW::Platform* producer, const Neat& descriptor)
+   Monitor::Monitor(GLFW::Platform* producer, Describe descriptor)
       : Resolvable   {this}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");

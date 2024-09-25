@@ -27,7 +27,7 @@ namespace GLFW
    /// Module construction                                                    
    ///   @param runtime - the runtime that owns the module                    
    ///   @param descriptor - instructions for configuring the module          
-   Platform::Platform(Runtime* runtime, const Neat&)
+   Platform::Platform(Runtime* runtime, Describe)
       : Resolvable {this}
       , Module     {runtime}
       , mWindows   {this} {

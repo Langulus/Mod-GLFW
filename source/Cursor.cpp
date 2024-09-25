@@ -15,7 +15,7 @@ namespace GLFW
    /// Cursor construction                                                    
    ///   @param producer - cursor owner                                       
    ///   @param descriptor - cursor descriptor                                
-   Cursor::Cursor(GLFW::Platform* producer, const Neat& descriptor)
+   Cursor::Cursor(GLFW::Platform* producer, Describe descriptor)
       : Resolvable   {this}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");

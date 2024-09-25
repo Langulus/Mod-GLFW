@@ -21,7 +21,7 @@ namespace GLFW
       LANGULUS_BASES(A::Platform);
 
    public:
-      Cursor(GLFW::Platform*, const Neat&);
+      Cursor(GLFW::Platform*, Describe);
 
       void Refresh() final {}
    };

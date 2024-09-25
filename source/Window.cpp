@@ -48,7 +48,7 @@ namespace GLFW
    /// Window construction                                                    
    ///   @param producer - window owner                                       
    ///   @param descriptor - window descriptor                                
-   Window::Window(GLFW::Platform* producer, const Neat& descriptor)
+   Window::Window(GLFW::Platform* producer, Describe descriptor)
       : Resolvable   {this}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");

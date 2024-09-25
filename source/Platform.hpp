@@ -29,7 +29,7 @@ namespace GLFW
       TFactory<GLFW::Window> mWindows;
 
    public:
-      Platform(Runtime*, const Neat&);
+      Platform(Runtime*, Describe);
       ~Platform();
 
       bool Update(Time);
