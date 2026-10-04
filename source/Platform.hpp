@@ -20,7 +20,7 @@ namespace GLFW
    /// color pickers, etc. Uses GLFW library as a backend.                    
    ///                                                                        
    struct Platform final : A::PlatformModule {
-      LANGULUS(ABSTRACT) false;
+      using CTTI_Abstract = No;
       LANGULUS_BASES(A::PlatformModule);
       LANGULUS_VERBS(Verbs::Create);
 

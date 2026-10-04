@@ -106,7 +106,7 @@ namespace GLFW
    /// Move-construct window                                                  
    ///   @param other - the window to move                                    
    /*Window::Window(Window&& other) noexcept
-      : A::Window {Forward<A::Window>(other)}
+      : Things::Window {Forward<Things::Window>(other)}
       , ProducedFrom {Forward<ProducedFrom>(other)}
       , mGLFWWindow {Move(other.mGLFWWindow)}
       , mScrollChange {other.mScrollChange} {
@@ -118,7 +118,7 @@ namespace GLFW
    /// Move-copy window                                                       
    ///   @param other - the window to move                                    
    /*Window& Window::operator = (Window&& other) noexcept {
-      A::Window::operator = (Forward<A::Window>(other));
+      Things::Window::operator = (Forward<Things::Window>(other));
       mGLFWWindow = Move(other.mGLFWWindow);
       mScrollChange = other.mScrollChange;
       if (mGLFWWindow)
@@ -232,7 +232,7 @@ namespace GLFW
    }
 
    /// Accumulate text input                                                  
-   void Window::PushTextInput(const Text& text) {
+   void Window::PushTextInput(Text const& text) {
       mTextInput += text;
    }
 

@@ -26,10 +26,10 @@ namespace GLFW
    /// operating system, dispatches interact verbs to hierarchy upon user     
    /// input                                                                  
    ///                                                                        
-   struct Window final : A::Window, ProducedFrom<GLFW::Platform> {
-      LANGULUS(ABSTRACT) false;
-      LANGULUS(PRODUCER) GLFW::Platform;
-      LANGULUS_BASES(A::Window);
+   struct Window final : Things::Window, ProducedFrom<GLFW::Platform> {
+      using CTTI_Abstract = No;
+      using CTTI_Producer = GLFW::Platform;
+      LANGULUS_BASES(Things::Window);
       LANGULUS_VERBS(Verbs::Associate);
 
    private:
@@ -87,7 +87,7 @@ namespace GLFW
 
       void Update();
       void SetSize(int, int);
-      void PushTextInput(const Text&);
+      void PushTextInput(Text const&);
       void AccumulateScroll(const Vec2&) noexcept;
    };
 

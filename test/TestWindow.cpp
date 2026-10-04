@@ -6,7 +6,7 @@
 /// SPDX-License-Identifier: GPL-3.0-or-later                                 
 ///                                                                           
 #include "Main.hpp"
-#include <Langulus/Platform.hpp>
+#include <Langulus/CppAPI/Platform.hpp>
 #include <catch2/catch.hpp>
 
 
@@ -25,23 +25,23 @@ SCENARIO("Window creation", "[window]") {
          auto root = Thing::Root<false>("GLFW");
          
          WHEN("The window is created via abstraction") {
-            auto window = root.CreateUnit<A::Window>();
+            auto window = root.CreateUnit<Things::Window>();
             root.DumpHierarchy();
 
             REQUIRE(window.GetCount() == 1);
             REQUIRE(window.IsSparse());
-            REQUIRE(window.CastsTo<A::Window>());
+            REQUIRE(window.CastsTo<Things::Window>());
             REQUIRE(root.GetUnits().GetCount() == 1);
          }
 
       #if LANGULUS_FEATURE(MANAGED_REFLECTION)
          WHEN("The window is created via token") {
-            auto window = root.CreateUnitToken("A::Window");
+            auto window = root.CreateUnitToken("Things::Window");
             root.DumpHierarchy();
 
             REQUIRE(window.GetCount() == 1);
             REQUIRE(window.IsSparse());
-            REQUIRE(window.CastsTo<A::Window>());
+            REQUIRE(window.CastsTo<Things::Window>());
             REQUIRE(root.GetUnits().GetCount() == 1);
          }
       #endif

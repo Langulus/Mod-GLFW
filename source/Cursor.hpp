@@ -16,8 +16,8 @@ namespace GLFW
    ///   GLFW cursor                                                          
    ///                                                                        
    struct Cursor final : A::Platform, ProducedFrom<GLFW::Platform> {
-      LANGULUS(ABSTRACT) false;
-      LANGULUS(PRODUCER) GLFW::Platform;
+      using CTTI_Abstract = No;
+      using CTTI_Producer = GLFW::Platform;
       LANGULUS_BASES(A::Platform);
 
    public:
