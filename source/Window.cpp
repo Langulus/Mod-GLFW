@@ -49,8 +49,8 @@ namespace GLFW
    ///   @param producer - window owner                                       
    ///   @param descriptor - window descriptor                                
    Window::Window(GLFW::Platform* producer, Describe descriptor)
-      : Resolvable   {this}
-      , ProducedFrom {producer, descriptor} {
+      : /*Resolvable   {this}
+      ,*/ ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");
 
       // Extract properties from descriptor and hierarchy               
