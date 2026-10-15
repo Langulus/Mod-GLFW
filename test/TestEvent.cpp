@@ -37,7 +37,7 @@ SCENARIO("Events", "[event]") {
          WHEN("The event is posted") {
             root.Do(interact);
 
-            THEN("Various traits change") {
+            THEN("Various tags change") {
                REQUIRE(true);
             }
          }

@@ -143,15 +143,15 @@ namespace GLFW
          glfwSetWindowTitle(mGLFWWindow, mTitle->Terminate().GetRaw());
    }
 
-   /// Associate some specific traits of a window                             
-   /// Many of the window traits require system calls to update, so this takes
+   /// Associate some specific tags of a window                             
+   /// Many of the window tags require system calls to update, so this takes
    /// care of that                                                           
    ///   @param verb - association verb                                       
    void Window::Associate(Verb& verb) {
-      verb.ForEachDeep([&](const Trait& trait) {
-         if (trait.IsTrait<Traits::Clipboard>()) {
+      verb.ForEachDeep([&](const Trait& tag) {
+         if (tag.IsTrait<Traits::Clipboard>()) {
             // Update system clipboard                                  
-            mClipboard = trait.AsCast<Text>().Terminate();
+            mClipboard = tag.AsCast<Text>().Terminate();
             glfwSetClipboardString(mGLFWWindow, mClipboard->GetRaw());
          }
       });
