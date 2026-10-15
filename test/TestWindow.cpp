@@ -36,7 +36,7 @@ SCENARIO("Window creation", "[window]") {
 
       #if LANGULUS_FEATURE(MANAGED_REFLECTION)
          WHEN("The window is created via token") {
-            auto window = root.CreateUnitToken("Things::Window");
+            auto window = root.CreatePartToken("Things::Window");
             root.DumpHierarchy();
 
             REQUIRE(window.GetCount() == 1);
