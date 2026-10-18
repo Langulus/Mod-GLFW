@@ -68,7 +68,7 @@ namespace GLFW
          nullptr, nullptr
       );
 
-      LANGULUS_ASSERT(mGLFWWindow, Construct, "Failed to initialize window");
+      LglsAssert(mGLFWWindow, "Failed to initialize window");
 
       // Set the callbacks and user pointers for the canvas pipe        
       glfwSetWindowCloseCallback(mGLFWWindow, OnClosed);
