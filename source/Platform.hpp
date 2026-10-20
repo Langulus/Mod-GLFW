@@ -19,9 +19,9 @@ namespace GLFW
    /// Manages and produces native windows, dialogs, file selection browsers, 
    /// color pickers, etc. Uses GLFW library as a backend.                    
    ///                                                                        
-   struct Platform final : A::PlatformModule {
+   struct Platform final : Things::PlatformModule {
       using CTTI_Abstract = No;
-      LANGULUS_BASES(A::PlatformModule);
+      LANGULUS_BASES(Things::PlatformModule);
       LANGULUS_VERBS(Verbs::Create);
 
    private:

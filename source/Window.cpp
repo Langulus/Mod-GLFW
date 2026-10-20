@@ -103,7 +103,7 @@ namespace GLFW
       VERBOSE_GLFW("Initialized");
    }
 
-   /// Move-construct window                                                  
+   /// Move-recipe window                                                  
    ///   @param other - the window to move                                    
    /*Window::Window(Window&& other) noexcept
       : Things::Window {Forward<Things::Window>(other)}
