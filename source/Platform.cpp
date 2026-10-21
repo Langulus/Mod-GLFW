@@ -28,7 +28,7 @@ namespace GLFW
    ///   @param runtime - the runtime that owns the module                    
    ///   @param descriptor - instructions for configuring the module          
    Platform::Platform(Runtime* runtime, Describe)
-      : Resolvable {this}
+      : Downcastable {this}
       , Module     {runtime}
       , mWindows   {this} {
       VERBOSE_GLFW("Initializing...");

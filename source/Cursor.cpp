@@ -16,7 +16,7 @@ namespace GLFW
    ///   @param producer - cursor owner                                       
    ///   @param descriptor - cursor descriptor                                
    Cursor::Cursor(GLFW::Platform* producer, Describe descriptor)
-      : Resolvable   {this}
+      : Downcastable   {this}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");
       Couple(descriptor);
