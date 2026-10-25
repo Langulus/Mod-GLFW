@@ -14,11 +14,6 @@
 
 namespace GLFW
 {
-
-   using Vec2 = Math::Vec2;
-   using Grad2v2 = Math::Grad2v2;
-
-
    ///                                                                        
    ///   GLFW window                                                          
    ///                                                                        
@@ -27,38 +22,37 @@ namespace GLFW
    /// input                                                                  
    ///                                                                        
    struct Window final : Things::Window, ProducedFrom<GLFW::Platform> {
-      using CTTI_Abstract = No;
-      using CTTI_Producer = GLFW::Platform;
-      LANGULUS_BASES(Things::Window);
-      LANGULUS_VERBS(Verbs::Associate);
+      using CTTI_Abstract  = No;
+      using CTTI_Producer  = GLFW::Platform;
+      using CTTI_Bases     = Things::Window;
+      using CTTI_Ability   = Verbs::Associate;
 
    private:
       // The window handle (GLFW specific)                              
       Own<GLFWwindow*> mGLFWWindow;
       // Window title                                                   
-      Traits::Name::Tag<Pin<Text>> mTitle = "<untitled>";
+      Tags::Name::Tag<Pin<Text>> mTitle = "<untitled>";
       // Window size, in pixels                                         
-      Traits::Size::Tag<Pin<Scale2>> mSize;
+      Tags::Size::Tag<Pin<Scale2>> mSize;
       // Whether or not cursor is enabled                               
-      Traits::Cursor::Tag<Own<Cursor*>> mCursor;
+      Tags::Cursor::Tag<Own<Cursor*>> mCursor;
       // Whether or not fullscreen is enabled on a specific monitor     
-      Traits::Monitor::Tag<Own<Monitor*>> mMonitor;
+      Tags::Monitor::Tag<Own<Monitor*>> mMonitor;
       // Native window handle, used by other modules, like Vulkan       
-      Traits::NativeWindowHandle::Tag<Own<void*>> mNativeWindowHandle;
-
+      Tags::NativeWindowHandle::Tag<Own<void*>> mNativeWindowHandle;
 
       // Relative scrolling accumulator                                 
       Vec2 mScrollChange;
       // Mouse position, relative to window                             
-      Traits::MousePosition::Tag<Grad2v2> mMousePosition;
+      Tags::MousePosition::Tag<Grad2v2> mMousePosition;
       // Mouse scroll                                                   
-      Traits::MouseScroll::Tag<Grad2v2> mMouseScroll;
+      Tags::MouseScroll::Tag<Grad2v2> mMouseScroll;
       // Text input accumulator                                         
       Text mTextInput;
       // Clipboard                                                      
-      Traits::Clipboard::Tag<Text> mClipboard;
+      Tags::Clipboard::Tag<Text> mClipboard;
 
-      LANGULUS_MEMBERS(
+      using CTTI_Members = Members<
          &Window::mSize,
          &Window::mMousePosition,
          &Window::mMouseScroll,
@@ -67,10 +61,10 @@ namespace GLFW
          &Window::mMonitor,
          &Window::mNativeWindowHandle,
          &Window::mClipboard
-      );
+      >;
 
    public:
-      Window(GLFW::Platform*, Describe);
+       Window(GLFW::Platform*, Describe);
       ~Window();
 
       void Associate(Verb&);
@@ -90,5 +84,4 @@ namespace GLFW
       void PushTextInput(Text const&);
       void AccumulateScroll(const Vec2&) noexcept;
    };
-
-} // namespace GLFW
+}
