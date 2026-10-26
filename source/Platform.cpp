@@ -38,7 +38,7 @@ namespace GLFW
 
       // Initialize GLFW                                                
       if (not glfwInit())
-         LANGULUS_THROW(Construct, "Error initializing GLFW");
+         throw Exception("Error initializing GLFW");
 
       VERBOSE_GLFW("Initialized");
    }
