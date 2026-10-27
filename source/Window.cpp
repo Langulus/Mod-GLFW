@@ -146,10 +146,10 @@ void Window::Refresh() {
 /// care of that                                                              
 ///   @param verb association verb                                            
 void Window::Associate(Verb& verb) {
-   verb.ForEachDeep([&](const Trait& tag) {
+   verb.ForEachDeep([&](const Tag& tag) {
       if (tag.IsTag<Tags::Clipboard>()) {
          // Update system clipboard                                  
-         mClipboard = tag.AsCast<Text>().Terminate();
+         mClipboard = tag.As<Text>().Terminate();
          glfwSetClipboardString(mGLFWWindow, mClipboard->GetRaw());
       }
    });
