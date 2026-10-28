@@ -235,7 +235,7 @@ void Window::PushTextInput(Text const& text) {
 }
 
 /// Accumulate mouse scrolling                                             
-void Window::AccumulateScroll(const Vec2& offset) noexcept {
+void Window::AccumulateScroll(Vec2 const& offset) noexcept {
    mScrollChange += offset;
 }
 

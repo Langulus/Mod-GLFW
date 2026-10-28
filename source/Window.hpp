@@ -82,6 +82,6 @@ namespace GLFW
       void Update();
       void SetSize(int, int);
       void PushTextInput(Text const&);
-      void AccumulateScroll(const Vec2&) noexcept;
+      void AccumulateScroll(Vec2 const&) noexcept;
    };
 }
