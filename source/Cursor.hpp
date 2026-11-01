@@ -11,19 +11,16 @@
 
 namespace GLFW
 {
-
    ///                                                                        
    ///   GLFW cursor                                                          
-   ///                                                                        
    struct Cursor final : Things::Platform, ProducedFrom<GLFW::Platform> {
-      using CTTI_Abstract = No;
-      using CTTI_Producer = GLFW::Platform;
-      LANGULUS_BASES(Things::Platform);
+      using CTTI_Abstract  = No;
+      using CTTI_Producer  = GLFW::Platform;
+      using CTTI_Bses      = Things::Platform;
 
    public:
       Cursor(GLFW::Platform*, Describe);
 
       void Refresh() final {}
    };
-
-} // namespace GLFW
+}

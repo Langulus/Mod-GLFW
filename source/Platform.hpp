@@ -7,22 +7,20 @@
 ///                                                                           
 #pragma once
 #include "Window.hpp"
-#include <Flow/Verbs/Create.hpp>
+#include <Langulus/Verbs/Create.hpp>
 
 
 namespace GLFW
 {
-
    ///                                                                        
    ///   Native window/dialog management module                               
    ///                                                                        
    /// Manages and produces native windows, dialogs, file selection browsers, 
    /// color pickers, etc. Uses GLFW library as a backend.                    
-   ///                                                                        
    struct Platform final : Things::PlatformModule {
-      using CTTI_Abstract = No;
-      LANGULUS_BASES(Things::PlatformModule);
-      LANGULUS_VERBS(Verbs::Create);
+      using CTTI_Abstract  = No;
+      using CTTI_Bases     = Things::PlatformModule;
+      using CTTI_Ability   = Verbs::Create;
 
    private:
       // List of created windows                                        
@@ -35,5 +33,4 @@ namespace GLFW
       bool Update(Time);
       void Create(Verb&);
    };
-
-} // namespace GLFW
+}
