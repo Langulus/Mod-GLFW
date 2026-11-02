@@ -11,16 +11,14 @@
 
 namespace GLFW
 {
-
    /// Cursor construction                                                    
-   ///   @param producer - cursor owner                                       
-   ///   @param descriptor - cursor descriptor                                
-   Cursor::Cursor(GLFW::Platform* producer, Describe descriptor)
-      : Downcastable   {this}
+   ///   @param producer cursor owner                                         
+   ///   @param descriptor cursor descriptor                                  
+   Cursor::Cursor(GLFW::Platform* producer, Neat const& descriptor)
+      : Downcastable {this}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");
       Couple(descriptor);
       VERBOSE_GLFW("Initialized");
    }
-
-} // namespace GLFW
+}

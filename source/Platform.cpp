@@ -16,21 +16,20 @@ LANGULUS_DEFINE_MODULE(
 
 namespace GLFW
 {
-
    /// Error message relay                                                    
-   ///   @param error - error id                                              
-   ///   @param description - text to display                                 
+   ///   @param error error id                                                
+   ///   @param description text to display                                   
    void ErrorRelay(int error, const char* description) {
       Logger::Error("GLFW Error code ", error, ": ", description);
    }
 
    /// Module construction                                                    
-   ///   @param runtime - the runtime that owns the module                    
-   ///   @param descriptor - instructions for configuring the module          
-   Platform::Platform(Runtime* runtime, Describe)
+   ///   @param runtime the runtime that owns the module                      
+   ///   @param descriptor instructions for configuring the module            
+   Platform::Platform(Runtime* runtime, Neat const&)
       : Downcastable {this}
-      , Module     {runtime}
-      , mWindows   {this} {
+      , Module       {runtime}
+      , mWindows     {this} {
       VERBOSE_GLFW("Initializing...");
 
       // Bind our logger first                                          
@@ -52,7 +51,7 @@ namespace GLFW
    }
 
    /// Module update routine                                                  
-   ///   @param dt - time from last update                                    
+   ///   @param dt time from last update                                      
    bool Platform::Update(Time) {
       // Retrieve and dispatch OS events                                
       glfwPollEvents();
@@ -71,9 +70,8 @@ namespace GLFW
    }
 
    /// Create/Destroy platform components, such as native windows             
-   ///   @param verb - the creation/destruction verb                          
+   ///   @param verb the creation/destruction verb                            
    void Platform::Create(Verb& verb) {
       mWindows.Create(verb);
    }
-
-} // namespace GLFW
+}

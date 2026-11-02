@@ -20,7 +20,7 @@ namespace GLFW
       using CTTI_Basese    = Things::Platform;
 
    public:
-      Monitor(GLFW::Platform*, Describe);
+      Monitor(GLFW::Platform*, Neat const&);
 
       void Refresh() final {}
    };

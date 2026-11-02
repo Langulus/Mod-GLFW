@@ -46,7 +46,7 @@ void OnFileDrop(GLFWwindow*, int count, const char** paths);
 /// Window construction                                                       
 ///   @param producer window owner                                            
 ///   @param descriptor window descriptor                                     
-Window::Window(GLFW::Platform* producer, Describe descriptor)
+Window::Window(GLFW::Platform* producer, Neat const& descriptor)
    : Downcastable {this}
    , ProducedFrom {producer, descriptor} {
    VERBOSE_GLFW("Initializing...");
@@ -146,7 +146,7 @@ void Window::Refresh() {
 /// care of that                                                              
 ///   @param verb association verb                                            
 void Window::Associate(Verb& verb) {
-   verb.ForEachDeep([&](const Tag& tag) {
+   verb.ForEachDeep([&](Tag const& tag) {
       if (tag.IsTag<Tags::Clipboard>()) {
          // Update system clipboard                                  
          mClipboard = tag.As<Text>().Terminate();

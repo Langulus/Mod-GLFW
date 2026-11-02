@@ -20,7 +20,6 @@ namespace GLFW
    /// Encapsulates an OS window, relays create, move, select verbs to the    
    /// operating system, dispatches interact verbs to hierarchy upon user     
    /// input                                                                  
-   ///                                                                        
    struct Window final : Things::Window, ProducedFrom<GLFW::Platform> {
       using CTTI_Abstract  = No;
       using CTTI_Producer  = GLFW::Platform;
@@ -64,20 +63,20 @@ namespace GLFW
       >;
 
    public:
-       Window(GLFW::Platform*, Describe);
+       Window(GLFW::Platform*, Neat const&);
       ~Window();
 
       void Associate(Verb&);
       void Refresh();
 
-      NOD() bool IsClosed() const;
-      NOD() bool IsInFocus() const;
-      NOD() bool IsMouseOver() const;
-      NOD() bool IsInteractable() const;
+      bool IsClosed() const;
+      bool IsInFocus() const;
+      bool IsMouseOver() const;
+      bool IsInteractable() const;
 
-      NOD() void* GetNativeHandle() const noexcept;
-      NOD() Scale2 GetSize() const noexcept;
-      NOD() bool IsMinimized() const noexcept;
+      auto GetNativeHandle() const noexcept -> void*;
+      auto GetSize() const noexcept -> Scale2;
+      bool IsMinimized() const noexcept;
 
       void Update();
       void SetSize(int, int);
