@@ -63,7 +63,7 @@ namespace GLFW
       >;
 
    public:
-       Window(GLFW::Platform*, Neat const&);
+       Window(GLFW::Platform const*, Neat const&);
       ~Window();
 
       void Associate(Verb&);

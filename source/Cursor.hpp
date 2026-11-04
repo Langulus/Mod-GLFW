@@ -19,7 +19,7 @@ namespace GLFW
       using CTTI_Bses      = Things::Platform;
 
    public:
-      Cursor(GLFW::Platform*, Neat const&);
+      Cursor(GLFW::Platform const*, Neat const&);
 
       void Refresh() final {}
    };

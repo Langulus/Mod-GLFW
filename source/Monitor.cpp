@@ -14,7 +14,7 @@ namespace GLFW
    /// Monitor construction                                                   
    ///   @param producer monitor owner                                        
    ///   @param descriptor monitor descriptor                                 
-   Monitor::Monitor(GLFW::Platform* producer, Neat const& descriptor)
+   Monitor::Monitor(GLFW::Platform const* producer, Neat const& descriptor)
       : Downcastable {this}
       , ProducedFrom {producer, descriptor} {
       VERBOSE_GLFW("Initializing...");

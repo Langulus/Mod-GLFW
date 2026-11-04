@@ -46,7 +46,7 @@ void OnFileDrop(GLFWwindow*, int count, const char** paths);
 /// Window construction                                                       
 ///   @param producer window owner                                            
 ///   @param descriptor window descriptor                                     
-Window::Window(GLFW::Platform* producer, Neat const& descriptor)
+Window::Window(GLFW::Platform const* producer, Neat const& descriptor)
    : Downcastable {this}
    , ProducedFrom {producer, descriptor} {
    VERBOSE_GLFW("Initializing...");
