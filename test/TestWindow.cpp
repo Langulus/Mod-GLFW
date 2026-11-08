@@ -25,7 +25,7 @@ SCENARIO("Window creation", "[window]") {
          auto root = Thing::Root<false>("GLFW");
          
          WHEN("The window is created via abstraction") {
-            auto window = root.CreateUnit<Things::Window>();
+            auto window = root.CreatePart<Things::Window>();
             root.DumpHierarchy();
 
             REQUIRE(window.GetCount() == 1);
