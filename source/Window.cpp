@@ -263,14 +263,14 @@ bool Window::IsMinimized() const noexcept {
 ///                                                                        
 
 /// Get the Langulus window associated with a GLFW window                  
-auto GetUnit(GLFWwindow* window) {
+auto GetPart(GLFWwindow* window) {
    return static_cast<Window*>(glfwGetWindowUserPointer(window));
 }
 
 /// On window close                                                        
 ///   @param window - the event's owner                                    
 void OnClosed(GLFWwindow* window) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -292,7 +292,7 @@ void OnKeyboardKey(
    GLFWwindow* window, int key,
    UNUSED() int scancode, UNUSED() int action, UNUSED() int mods
 ) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -662,7 +662,7 @@ void OnKeyboardKey(
 ///   @param x - new position (horizontal screen offset in pixels)         
 ///   @param y - new position (vertical screen offset in pixels)           
 void OnMove(GLFWwindow* window, int x, int y) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -675,7 +675,7 @@ void OnMove(GLFWwindow* window, int x, int y) {
 ///   @param x - new scale (width in pixels)                               
 ///   @param y - new scale (height in pixels)                              
 void OnResize(GLFWwindow* window, int x, int y) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -690,7 +690,7 @@ void OnResize(GLFWwindow* window, int x, int y) {
 ///   @param window - the event's owner                                    
 ///   @param focused - focused state                                       
 void OnFocus(GLFWwindow* window, int focused) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (canvas->IsClosed())
       return;
 
@@ -712,7 +712,7 @@ void OnFocus(GLFWwindow* window, int focused) {
 ///   @param window - the event's owner                                    
 ///   @param iconified - iconification state                               
 void OnMinimize(GLFWwindow* window, int iconified) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -735,7 +735,7 @@ void OnMinimize(GLFWwindow* window, int iconified) {
 ///   @param x - new resolution (width in pixels)                          
 ///   @param y - new resolution (height in pixels)                         
 void OnResolutionChange(GLFWwindow* window, int x, int y) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (canvas->IsClosed())
       return;
 
@@ -749,7 +749,7 @@ void OnResolutionChange(GLFWwindow* window, int x, int y) {
 ///   @param window - the event's owner                                    
 ///   @param entered - zero if leave, one if entered                       
 void OnHover(GLFWwindow* window, int entered) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -773,7 +773,7 @@ void OnHover(GLFWwindow* window, int entered) {
 ///   @param action - the action that the button performed                 
 ///   @param mods - mods for button combinations                           
 void OnMouseKey(GLFWwindow* window, int button, UNUSED() int action, UNUSED() int mods) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -817,7 +817,7 @@ void OnMouseKey(GLFWwindow* window, int button, UNUSED() int action, UNUSED() in
 ///   @param window - the event's owner                                    
 ///   @param codepoint - UTF-32 code point                                 
 void OnTextInput(GLFWwindow* window, UNUSED() unsigned codepoint) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -830,7 +830,7 @@ void OnTextInput(GLFWwindow* window, UNUSED() unsigned codepoint) {
 ///   @param xoffset - the new mouse x position                            
 ///   @param yoffset - the new mouse y position                            
 void OnMouseScroll(GLFWwindow* window, double xoffset, double yoffset) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
@@ -842,7 +842,7 @@ void OnMouseScroll(GLFWwindow* window, double xoffset, double yoffset) {
 ///   @param count - number of dropped files                               
 ///   @param paths - deep container with filenames                         
 void OnFileDrop(GLFWwindow* window, int count, const char** paths) {
-   auto canvas = GetUnit(window);
+   auto canvas = GetPart(window);
    if (not canvas->IsInteractable())
       return;
 
